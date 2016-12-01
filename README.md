@@ -7,4 +7,11 @@ How to read common remote sensing products
 
 ## L3BIN
 
+Applies to:
 - MODIS Terra and Aqua
+
+### R
+
+### Matlab
+
+### C/C++
