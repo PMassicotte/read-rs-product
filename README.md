@@ -59,6 +59,24 @@ head(df)
     ## 5 0.9581555   0.4194749
     ## 6 0.8865827   0.3568407
 
+It is to be noted that the observed values need to be weighted. The weighted values can be found in the `BinList` layer:
+
+``` r
+bins <- h5read("data/A2016160.L3b_DAY_CHL.nc", "/level-3_binned_data/BinList")
+
+df$sum <- df$sum / bins$weights
+
+head(df)
+```
+
+    ##         sum sum_squared
+    ## 1 0.4931170   0.3438865
+    ## 2 0.3999573   0.4339271
+    ## 3 0.3665678   0.3075230
+    ## 4 0.3956830   0.2214183
+    ## 5 0.4285002   0.4194749
+    ## 6 0.3964918   0.3568407
+
 NetCDF 4
 --------
 
@@ -175,7 +193,7 @@ r
 plot(r)
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-7-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-8-1.png)
 
 Note the longitudes are from 0 to 360 degrees. It is easy to change that so the image is correctly displayed:
 
@@ -201,4 +219,4 @@ coords[1, ] <- ifelse(coords[1, ] > 180, coords[1, ] - 360, coords[1, ])
 plot(r)
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-8-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-9-1.png)

@@ -37,6 +37,17 @@ df <- h5read("data/A2016160.L3b_DAY_CHL.nc", "/level-3_binned_data/chlor_a")
 head(df)
 ```
 
+It is to be noted that the observed values need to be weighted. The weighted values can be found in the `BinList` layer:
+
+```{r}
+bins <- h5read("data/A2016160.L3b_DAY_CHL.nc", "/level-3_binned_data/BinList")
+
+df$sum <- df$sum / bins$weights
+
+head(df)
+```
+
+
 ## NetCDF 4
 
 These files can be opened using the `ncdf4` package.
