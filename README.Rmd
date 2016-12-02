@@ -3,7 +3,8 @@ output: github_document
 ---
 
 # read-rs-product
-How to read common remote sensing products
+
+How to read common remote sensing products.
 
 ## Table of content
 
@@ -13,8 +14,6 @@ How to read common remote sensing products
 
 Applies to:
 - MODIS Terra and Aqua
-
-### R
 
 HDF5 L3BIN files can be read using the `rhdf5` package from bioconductor. The installation can be done as follow:
 
@@ -38,7 +37,50 @@ df <- h5read("data/A2016160.L3b_DAY_CHL.nc", "/level-3_binned_data/chlor_a")
 head(df)
 ```
 
+## NetCDF 4
 
-### Matlab
+These files can be opened using the `ncdf4` package.
 
-### C/C++
+```{r, eval = FALSE}
+install.packages("ncdf4")
+```
+
+Layers in the file can be listed using the `nc_open()` function:
+
+```{r}
+library(ncdf4)
+f <- nc_open("data/avhrr-only-v2.20160503.nc")
+f
+```
+
+Opening a specific layer is done with the `ncvar_get()` function:
+
+```{r}
+sst <- ncvar_get(f, "sst")
+dim(sst)
+```
+
+It is also possible to open NetCDF4 file using the `raster()` function:
+
+```{r}
+library(raster)
+r <- raster("data/avhrr-only-v2.20160503.nc", varname = "sst") 
+r
+
+plot(r)
+```
+
+Note the longitudes are from 0 to 360 degrees. It is easy to change that so the image is correctly displayed:
+
+```{r}
+library(sp)
+
+coords <- coordinates(r)
+head(coords)
+
+coords[1, ] <- ifelse(coords[1, ] > 180, coords[1, ] - 360, coords[1, ])
+# coordinates(r) <- coords
+
+plot(r)
+```
+

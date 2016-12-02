@@ -2,7 +2,7 @@
 read-rs-product
 ===============
 
-How to read common remote sensing products
+How to read common remote sensing products.
 
 Table of content
 ----------------
@@ -13,8 +13,6 @@ L3BIN
 -----
 
 Applies to: - MODIS Terra and Aqua
-
-### R
 
 HDF5 L3BIN files can be read using the `rhdf5` package from bioconductor. The installation can be done as follow:
 
@@ -61,6 +59,146 @@ head(df)
     ## 5 0.9581555   0.4194749
     ## 6 0.8865827   0.3568407
 
-### Matlab
+NetCDF 4
+--------
 
-### C/C++
+These files can be opened using the `ncdf4` package.
+
+``` r
+install.packages("ncdf4")
+```
+
+Layers in the file can be listed using the `nc_open()` function:
+
+``` r
+library(ncdf4)
+f <- nc_open("data/avhrr-only-v2.20160503.nc")
+f
+```
+
+    ## File data/avhrr-only-v2.20160503.nc (NC_FORMAT_CLASSIC):
+    ## 
+    ##      4 variables (excluding dimension variables):
+    ##         short sst[lon,lat,zlev,time]   
+    ##             long_name: Daily sea surface temperature
+    ##             units: degrees C
+    ##             _FillValue: -999
+    ##             add_offset: 0
+    ##             scale_factor: 0.00999999977648258
+    ##             valid_min: -300
+    ##             valid_max: 4500
+    ##         short anom[lon,lat,zlev,time]   
+    ##             long_name: Daily sea surface temperature anomalies
+    ##             units: degrees C
+    ##             _FillValue: -999
+    ##             add_offset: 0
+    ##             scale_factor: 0.00999999977648258
+    ##             valid_min: -1200
+    ##             valid_max: 1200
+    ##         short err[lon,lat,zlev,time]   
+    ##             long_name: Estimated error standard deviation of analysed_sst
+    ##             units: degrees C
+    ##             _FillValue: -999
+    ##             add_offset: 0
+    ##             scale_factor: 0.00999999977648258
+    ##             valid_min: 0
+    ##             valid_max: 1000
+    ##         short ice[lon,lat,zlev,time]   
+    ##             long_name: Sea ice concentration
+    ##             units: percentage
+    ##             _FillValue: -999
+    ##             add_offset: 0
+    ##             scale_factor: 0.00999999977648258
+    ##             valid_min: 0
+    ##             valid_max: 100
+    ## 
+    ##      4 dimensions:
+    ##         time  Size:1
+    ##             long_name: Center time of the day
+    ##             units: days since 1978-01-01 00:00:00
+    ##         zlev  Size:1
+    ##             long_name: Sea surface height
+    ##             units: meters
+    ##             actual_range: 0, 0
+    ##         lat  Size:720
+    ##             long_name: Latitude
+    ##             units: degrees_north
+    ##             grids: Uniform grid from -89.875 to 89.875 by 0.25
+    ##         lon  Size:1440
+    ##             long_name: Longitude
+    ##             units: degrees_east
+    ##             grids: Uniform grid from 0.125 to 359.875 by 0.25
+    ## 
+    ##     7 global attributes:
+    ##         Conventions: CF-1.0
+    ##         title: Daily-OI-V2, Final, Data (Ship, Buoy, AVHRR: NOAA19, METOP, NCEP-ice)
+    ##         History: Version 2.0
+    ##         creation_date: 2016-07-01 23:22
+    ##         Description: Reynolds, et al.(2007) Daily High-resolution Blended Analyses. Available at ftp://eclipse.ncdc.noaa.gov/pub/OI-daily/daily-sst.pdf  Climatology is based on 1971-2000 OI.v2 SST, Satellite data: Navy  NOAA19 METOP AVHRR, Ice data: NCEP ice
+    ##         Source: NOAA/National Climatic Data Center
+    ##         Contact: Dick Reynolds, email: Richard.W.Reynolds@noaa.gov & Chunying Liu, email: Chunying.liu@noaa.gov
+
+Opening a specific layer is done with the `ncvar_get()` function:
+
+``` r
+sst <- ncvar_get(f, "sst")
+dim(sst)
+```
+
+    ## [1] 1440  720
+
+It is also possible to open NetCDF4 file using the `raster()` function:
+
+``` r
+library(raster)
+```
+
+    ## Loading required package: sp
+
+``` r
+r <- raster("data/avhrr-only-v2.20160503.nc", varname = "sst") 
+r
+```
+
+    ## class       : RasterLayer 
+    ## dimensions  : 720, 1440, 1036800  (nrow, ncol, ncell)
+    ## resolution  : 0.25, 0.25  (x, y)
+    ## extent      : 0, 360, -90, 90  (xmin, xmax, ymin, ymax)
+    ## coord. ref. : +proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 
+    ## data source : /media/work/projects/read-rs-product/data/avhrr-only-v2.20160503.nc 
+    ## names       : Daily.sea.surface.temperature 
+    ## z-value     : 2016-05-03 
+    ## zvar        : sst 
+    ## level       : 1
+
+``` r
+plot(r)
+```
+
+![](README_files/figure-markdown_github/unnamed-chunk-7-1.png)
+
+Note the longitudes are from 0 to 360 degrees. It is easy to change that so the image is correctly displayed:
+
+``` r
+library(sp)
+
+coords <- coordinates(r)
+head(coords)
+```
+
+    ##          x      y
+    ## [1,] 0.125 89.875
+    ## [2,] 0.375 89.875
+    ## [3,] 0.625 89.875
+    ## [4,] 0.875 89.875
+    ## [5,] 1.125 89.875
+    ## [6,] 1.375 89.875
+
+``` r
+coords[1, ] <- ifelse(coords[1, ] > 180, coords[1, ] - 360, coords[1, ])
+# coordinates(r) <- coords
+
+plot(r)
+```
+
+![](README_files/figure-markdown_github/unnamed-chunk-8-1.png)
