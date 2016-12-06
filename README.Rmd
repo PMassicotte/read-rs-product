@@ -38,6 +38,11 @@ df <- h5read("data/A2016160.L3b_DAY_CHL.nc", "/level-3_binned_data/chlor_a")
 head(df)
 ```
 
+Where:
+
+- `sum`  = the sum of the pixels in the bin
+- `sum_squared` = the squared sum
+
 It is to be noted that the observed values need to be weighted. The weighted values can be found in the `BinList` layer:
 
 ```{r}

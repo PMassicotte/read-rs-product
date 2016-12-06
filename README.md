@@ -60,6 +60,11 @@ head(df)
     ## 5 0.9581555   0.4194749
     ## 6 0.8865827   0.3568407
 
+Where:
+
+-   `sum` = the sum of the pixels in the bin
+-   `sum_squared` = the squared sum
+
 It is to be noted that the observed values need to be weighted. The weighted values can be found in the `BinList` layer:
 
 ``` r
