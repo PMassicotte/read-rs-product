@@ -226,3 +226,47 @@ plot(r)
 ```
 
 ![](README_files/figure-markdown_github/unnamed-chunk-9-1.png)
+
+HDF4
+----
+
+<http://hdfeos.org/software/r.php>
+
+``` r
+library(rgdal)
+```
+
+    ## rgdal: version: 1.2-7, (SVN revision 660)
+    ##  Geospatial Data Abstraction Library extensions to R successfully loaded
+    ##  Loaded GDAL runtime: GDAL 2.1.2, released 2016/10/24
+    ##  Path to GDAL shared files: /usr/local/share/gdal
+    ##  Loaded PROJ.4 runtime: Rel. 4.9.2, 08 September 2015, [PJ_VERSION: 492]
+    ##  Path to PROJ.4 shared files: (autodetected)
+    ##  Linking to sp version: 1.2-4
+
+``` r
+library(gdalUtils)
+sds <- get_subdatasets("data/MYD08_D3.A2003181.051.2008343213114.hdf")
+
+head(sds)
+```
+
+    ## [1] "HDF4_EOS:EOS_GRID:data/MYD08_D3.A2003181.051.2008343213114.hdf:mod08:Solar_Zenith_Mean"              
+    ## [2] "HDF4_EOS:EOS_GRID:data/MYD08_D3.A2003181.051.2008343213114.hdf:mod08:Solar_Zenith_Standard_Deviation"
+    ## [3] "HDF4_EOS:EOS_GRID:data/MYD08_D3.A2003181.051.2008343213114.hdf:mod08:Solar_Zenith_Minimum"           
+    ## [4] "HDF4_EOS:EOS_GRID:data/MYD08_D3.A2003181.051.2008343213114.hdf:mod08:Solar_Zenith_Maximum"           
+    ## [5] "HDF4_EOS:EOS_GRID:data/MYD08_D3.A2003181.051.2008343213114.hdf:mod08:Solar_Zenith_Pixel_Counts"      
+    ## [6] "HDF4_EOS:EOS_GRID:data/MYD08_D3.A2003181.051.2008343213114.hdf:mod08:Solar_Azimuth_Mean"
+
+``` r
+dat <- readGDAL(sds[6])
+```
+
+    ## HDF4_EOS:EOS_GRID:data/MYD08_D3.A2003181.051.2008343213114.hdf:mod08:Solar_Azimuth_Mean has GDAL driver HDF4Image 
+    ## and has 180 rows and 360 columns
+
+``` r
+plot(dat)
+```
+
+![](README_files/figure-markdown_github/unnamed-chunk-10-1.png)

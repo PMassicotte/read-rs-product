@@ -101,3 +101,19 @@ coords[1, ] <- ifelse(coords[1, ] > 180, coords[1, ] - 360, coords[1, ])
 plot(r)
 ```
 
+## HDF4
+
+http://hdfeos.org/software/r.php
+
+```{r}
+library(rgdal)
+library(gdalUtils)
+sds <- get_subdatasets("data/MYD08_D3.A2003181.051.2008343213114.hdf")
+
+head(sds)
+
+dat <- readGDAL(sds[6])
+
+plot(dat)
+```
+
