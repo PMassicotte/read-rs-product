@@ -53,6 +53,11 @@ df$sum <- df$sum / bins$weights
 head(df)
 ```
 
+In Matlab:
+
+```matlab
+res = h5read('A2016009.L3b_DAY_CHL.nc', '/level-3_binned_data/chlor_a');
+```
 
 ## NetCDF 4
 

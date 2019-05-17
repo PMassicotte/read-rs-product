@@ -1,21 +1,19 @@
 
-read-rs-product
-===============
+# read-rs-product
 
 How to read common remote sensing products.
 
-Table of content
-----------------
+## Table of content
 
--   [L3BIN](#l3bin)
--   [NetCDF4](#netcdf-4)
+  - [L3BIN](#l3bin)
+  - [NetCDF4](#netcdf-4)
 
-L3BIN
------
+## L3BIN
 
 Applies to: - MODIS Terra and Aqua
 
-HDF5 L3BIN files can be read using the `rhdf5` package from bioconductor. The installation can be done as follow:
+HDF5 L3BIN files can be read using the `rhdf5` package from
+bioconductor. The installation can be done as follow:
 
 ``` r
 source("https://bioconductor.org/biocLite.R")
@@ -45,7 +43,8 @@ h5ls("data/A2016160.L3b_DAY_CHL.nc")
     ## 11                    /  processing_control    H5I_GROUP                 
     ## 12  /processing_control    input_parameters    H5I_GROUP
 
-Finally, use `h5read()` to open a specific layer:
+Finally, use `h5read()` to open a specific
+layer:
 
 ``` r
 df <- h5read("data/A2016160.L3b_DAY_CHL.nc", "/level-3_binned_data/chlor_a")
@@ -62,10 +61,12 @@ head(df)
 
 Where:
 
--   `sum` = the sum of the pixels in the bin
--   `sum_squared` = the squared sum
+  - `sum` = the sum of the pixels in the bin
+  - `sum_squared` = the squared sum
 
-It is to be noted that the observed values need to be weighted. The weighted values can be found in the `BinList` layer:
+It is to be noted that the observed values need to be weighted. The
+weighted values can be found in the `BinList`
+layer:
 
 ``` r
 bins <- h5read("data/A2016160.L3b_DAY_CHL.nc", "/level-3_binned_data/BinList")
@@ -83,8 +84,13 @@ head(df)
     ## 5 0.4285002   0.4194749
     ## 6 0.3964918   0.3568407
 
-NetCDF 4
---------
+In Matlab:
+
+``` matlab
+res = h5read('A2016009.L3b_DAY_CHL.nc', '/level-3_binned_data/chlor_a');
+```
+
+## NetCDF 4
 
 These files can be opened using the `ncdf4` package.
 
@@ -184,24 +190,25 @@ r <- raster("data/avhrr-only-v2.20160503.nc", varname = "sst")
 r
 ```
 
-    ## class       : RasterLayer 
-    ## dimensions  : 720, 1440, 1036800  (nrow, ncol, ncell)
-    ## resolution  : 0.25, 0.25  (x, y)
-    ## extent      : 0, 360, -90, 90  (xmin, xmax, ymin, ymax)
-    ## coord. ref. : +proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 
-    ## data source : /media/work/projects/read-rs-product/data/avhrr-only-v2.20160503.nc 
-    ## names       : Daily.sea.surface.temperature 
-    ## z-value     : 2016-05-03 
-    ## zvar        : sst 
-    ## level       : 1
+    ## class      : RasterLayer 
+    ## dimensions : 720, 1440, 1036800  (nrow, ncol, ncell)
+    ## resolution : 0.25, 0.25  (x, y)
+    ## extent     : 0, 360, -90, 90  (xmin, xmax, ymin, ymax)
+    ## crs        : +proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 
+    ## source     : /media/work/projects/read-rs-product/data/avhrr-only-v2.20160503.nc 
+    ## names      : Daily.sea.surface.temperature 
+    ## z-value    : 2016-05-03 
+    ## zvar       : sst 
+    ## level      : 1
 
 ``` r
 plot(r)
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-8-1.png)
+![](README_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
 
-Note the longitudes are from 0 to 360 degrees. It is easy to change that so the image is correctly displayed:
+Note the longitudes are from 0 to 360 degrees. It is easy to change that
+so the image is correctly displayed:
 
 ``` r
 library(sp)
@@ -225,10 +232,9 @@ coords[1, ] <- ifelse(coords[1, ] > 180, coords[1, ] - 360, coords[1, ])
 plot(r)
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-9-1.png)
+![](README_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
 
-HDF4
-----
+## HDF4
 
 <http://hdfeos.org/software/r.php>
 
@@ -236,16 +242,24 @@ HDF4
 library(rgdal)
 ```
 
-    ## rgdal: version: 1.2-7, (SVN revision 660)
+    ## rgdal: version: 1.4-3, (SVN revision 828)
     ##  Geospatial Data Abstraction Library extensions to R successfully loaded
-    ##  Loaded GDAL runtime: GDAL 2.1.2, released 2016/10/24
-    ##  Path to GDAL shared files: /usr/local/share/gdal
-    ##  Loaded PROJ.4 runtime: Rel. 4.9.2, 08 September 2015, [PJ_VERSION: 492]
+    ##  Loaded GDAL runtime: GDAL 2.4.0, released 2018/12/14
+    ##  Path to GDAL shared files: /usr/share/gdal
+    ##  GDAL binary built with GEOS: TRUE 
+    ##  Loaded PROJ.4 runtime: Rel. 5.2.0, September 15th, 2018, [PJ_VERSION: 520]
     ##  Path to PROJ.4 shared files: (autodetected)
-    ##  Linking to sp version: 1.2-4
+    ##  Linking to sp version: 1.3-1
 
 ``` r
 library(gdalUtils)
+```
+
+    ## Registered S3 method overwritten by 'R.oo':
+    ##   method        from       
+    ##   throw.default R.methodsS3
+
+``` r
 sds <- get_subdatasets("data/MYD08_D3.A2003181.051.2008343213114.hdf")
 
 head(sds)
@@ -269,4 +283,4 @@ dat <- readGDAL(sds[6])
 plot(dat)
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-10-1.png)
+![](README_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
