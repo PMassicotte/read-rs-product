@@ -158,3 +158,10 @@ plot(df$lon, df$lat)
 
 ```
 
+```{r}
+library(tidyverse)
+df %>% 
+  ggplot(aes(x = lon, y = lat, color = sic)) +
+  geom_point()
+```
+
