@@ -242,9 +242,9 @@ plot(r)
 library(rgdal)
 ```
 
-    ## rgdal: version: 1.4-3, (SVN revision 828)
+    ## rgdal: version: 1.4-4, (SVN revision 833)
     ##  Geospatial Data Abstraction Library extensions to R successfully loaded
-    ##  Loaded GDAL runtime: GDAL 2.4.0, released 2018/12/14
+    ##  Loaded GDAL runtime: GDAL 2.4.2, released 2019/06/28
     ##  Path to GDAL shared files: /usr/share/gdal
     ##  GDAL binary built with GEOS: TRUE 
     ##  Loaded PROJ.4 runtime: Rel. 5.2.0, September 15th, 2018, [PJ_VERSION: 520]
@@ -284,3 +284,38 @@ plot(dat)
 ```
 
 ![](README_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+
+## NSIDC data
+
+``` r
+sic <- readBin("data/nsidc/nt_20171002_f17_v1.1_n.bin",
+  what = "integer",
+  n = 304 * 448,
+  size = 1,
+  signed = F
+)
+
+lat <-
+  readBin(
+    "data/nsidc/psn25lats_v3.dat",
+    what = "integer",
+    n = 304 * 448,
+    size = 4,
+    signed = TRUE
+  )
+
+lon <-
+  readBin(
+    "data/nsidc/psn25lons_v3.dat",
+    what = "integer",
+    n = 304 * 448,
+    size = 4,
+    signed = TRUE
+  )
+
+df <- data.frame(lat = lat / 100000, lon = lon / 100000, thickness = sic)
+
+plot(df$lon, df$lat)
+```
+
+![](README_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
