@@ -188,6 +188,11 @@ It is also possible to open NetCDF4 file using the `raster()` function:
 
 ``` r
 library(raster)
+```
+
+    #> Loading required package: sp
+
+``` r
 r <- raster("data/avhrr-only-v2.20160503.nc", varname = "sst") 
 r
 ```
@@ -242,6 +247,24 @@ plot(r)
 
 ``` r
 library(rgdal)
+```
+
+    #> Please note that rgdal will be retired by the end of 2023,
+    #> plan transition to sf/stars/terra functions using GDAL and PROJ
+    #> at your earliest convenience.
+    #> 
+    #> rgdal: version: 1.5-27, (SVN revision 1148)
+    #> Geospatial Data Abstraction Library extensions to R successfully loaded
+    #> Loaded GDAL runtime: GDAL 3.0.4, released 2020/01/28
+    #> Path to GDAL shared files: /usr/share/gdal
+    #> GDAL binary built with GEOS: TRUE 
+    #> Loaded PROJ runtime: Rel. 6.3.1, February 10th, 2020, [PJ_VERSION: 631]
+    #> Path to PROJ shared files: /usr/share/proj
+    #> Linking to sp version:1.4-5
+    #> To mute warnings of possible GDAL/OSR exportToProj4() degradation,
+    #> use options("rgdal_show_exportToProj4_warnings"="none") before loading sp or rgdal.
+
+``` r
 library(gdalUtils)
 sds <- get_subdatasets("data/MYD08_D3.A2003181.051.2008343213114.hdf")
 
@@ -280,7 +303,18 @@ With the the `terra` package.
 
 ``` r
 library(terra)
+```
 
+    #> terra version 1.4.20
+
+    #> 
+    #> Attaching package: 'terra'
+
+    #> The following object is masked from 'package:rgdal':
+    #> 
+    #>     project
+
+``` r
 filename <- "data/MYD08_D3.A2003181.051.2008343213114.hdf"
 
 sdss <- describe(filename, sds = TRUE, meta = FALSE)
@@ -369,6 +403,24 @@ plot(df$lon, df$lat)
 
 ``` r
 library(tidyverse)
+```
+
+    #> ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
+
+    #> ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+    #> ✓ tibble  3.1.6     ✓ dplyr   1.0.7
+    #> ✓ tidyr   1.1.4     ✓ stringr 1.4.0
+    #> ✓ readr   2.1.0     ✓ forcats 0.5.1
+
+    #> ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+    #> x tidyr::extract()  masks terra::extract(), raster::extract()
+    #> x dplyr::filter()   masks stats::filter()
+    #> x dplyr::lag()      masks stats::lag()
+    #> x dplyr::select()   masks raster::select()
+    #> x purrr::simplify() masks terra::simplify()
+    #> x dplyr::src()      masks terra::src()
+
+``` r
 df %>% 
   ggplot(aes(x = lon, y = lat, color = sic)) +
   geom_point()
