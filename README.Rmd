@@ -6,7 +6,7 @@ editor_options:
 
 ```{r, include=FALSE}
 knitr::opts_chunk$set(
-  comment = "#>", echo = FALSE, fig.width = 6, cache = TRUE
+  comment = "#>", echo = TRUE, fig.width = 6, cache = TRUE
 )
 ```
 
