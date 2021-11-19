@@ -1,8 +1,14 @@
 ---
 output: github_document
 editor_options: 
-  chunk_output_type: inline
+  chunk_output_type: console
 ---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+  comment = "#>", echo = FALSE, fig.width = 6, cache = TRUE
+)
+```
 
 # read-rs-product
 
@@ -21,8 +27,16 @@ Applies to:
 HDF5 L3BIN files can be read using the `rhdf5` package from bioconductor. The installation can be done as follow:
 
 ```{r, eval = FALSE}
-source("https://bioconductor.org/biocLite.R")
-biocLite("rhdf5")
+# https://bioconductor.org/install/
+
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install(version = "3.14")
+
+BiocManager::install("rhdf5")
+
+library("rhdf5")
 ```
 
 The `h5ls()` function will list all the layers included in the file:
@@ -123,6 +137,24 @@ dat <- readGDAL(sds[6])
 
 plot(dat)
 ```
+
+With the the `terra` package.
+
+```{r terra-hdf}
+library(terra)
+
+filename <- "data/MYD08_D3.A2003181.051.2008343213114.hdf"
+
+sdss <- describe(filename, sds = TRUE, meta = FALSE)
+
+head(sdss)
+
+r <- rast(filename, 142)
+
+plot(r)
+
+```
+
 
 ## NSIDC data
 
