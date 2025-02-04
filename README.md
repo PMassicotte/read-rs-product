@@ -5,12 +5,14 @@ How to read common remote sensing products.
 
 ## Table of content
 
--   [L3BIN](#l3bin)
--   [NetCDF4](#netcdf-4)
+- [L3BIN](#l3bin)
+- [NetCDF4](#netcdf-4)
 
 ## L3BIN
 
-Applies to: - MODIS Terra and Aqua
+Applies to:
+
+- MODIS Terra and Aqua
 
 HDF5 L3BIN files can be read using the `rhdf5` package from
 bioconductor. The installation can be done as follow:
@@ -18,10 +20,11 @@ bioconductor. The installation can be done as follow:
 ``` r
 # https://bioconductor.org/install/
 
-if (!require("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
+if (!require("BiocManager", quietly = TRUE)) {
+  install.packages("BiocManager")
+}
 
-BiocManager::install(version = "3.14")
+BiocManager::install()
 
 BiocManager::install("rhdf5")
 
@@ -69,8 +72,8 @@ head(df)
 
 Where:
 
--   `sum` = the sum of the pixels in the bin
--   `sum_squared` = the squared sum
+- `sum` = the sum of the pixels in the bin
+- `sum_squared` = the squared sum
 
 It is to be noted that the observed values need to be weighted. The
 weighted values can be found in the `BinList` layer:
@@ -78,7 +81,7 @@ weighted values can be found in the `BinList` layer:
 ``` r
 bins <- h5read("data/A2016160.L3b_DAY_CHL.nc", "/level-3_binned_data/BinList")
 
-df$sum <- df$sum / bins$weights
+df[["sum"]] <- df[["sum"]] / bins[["weights"]]
 
 head(df)
 ```
@@ -90,12 +93,6 @@ head(df)
     #> 4 0.3956830   0.2214183
     #> 5 0.4285002   0.4194749
     #> 6 0.3964918   0.3568407
-
-In Matlab:
-
-``` matlab
-res = h5read('A2016009.L3b_DAY_CHL.nc', '/level-3_binned_data/chlor_a');
-```
 
 ## NetCDF 4
 
@@ -150,18 +147,18 @@ f
     #>             valid_max: 100
     #> 
     #>      4 dimensions:
-    #>         time  Size:1
+    #>         time  Size:1 
     #>             long_name: Center time of the day
     #>             units: days since 1978-01-01 00:00:00
-    #>         zlev  Size:1
+    #>         zlev  Size:1 
     #>             long_name: Sea surface height
     #>             units: meters
     #>             actual_range: 0, 0
-    #>         lat  Size:720
+    #>         lat  Size:720 
     #>             long_name: Latitude
     #>             units: degrees_north
     #>             grids: Uniform grid from -89.875 to 89.875 by 0.25
-    #>         lon  Size:1440
+    #>         lon  Size:1440 
     #>             long_name: Longitude
     #>             units: degrees_east
     #>             grids: Uniform grid from 0.125 to 359.875 by 0.25
@@ -184,29 +181,25 @@ dim(sst)
 
     #> [1] 1440  720
 
-It is also possible to open NetCDF4 file using the `raster()` function:
+It is also possible to open NetCDF4 file using the `rast()` function:
 
 ``` r
-library(raster)
-```
+library(terra)
+r <- rast("data/avhrr-only-v2.20160503.nc", lyrs = 1L)
 
-    #> Loading required package: sp
-
-``` r
-r <- raster("data/avhrr-only-v2.20160503.nc", varname = "sst") 
 r
 ```
 
-    #> class      : RasterLayer 
-    #> dimensions : 720, 1440, 1036800  (nrow, ncol, ncell)
-    #> resolution : 0.25, 0.25  (x, y)
-    #> extent     : 0, 360, -90, 90  (xmin, xmax, ymin, ymax)
-    #> crs        : +proj=longlat +datum=WGS84 +no_defs 
-    #> source     : avhrr-only-v2.20160503.nc 
-    #> names      : Daily.sea.surface.temperature 
-    #> z-value    : 2016-05-03 
-    #> zvar       : sst 
-    #> level      : 1
+    #> class       : SpatRaster 
+    #> dimensions  : 720, 1440, 1  (nrow, ncol, nlyr)
+    #> resolution  : 0.25, 0.25  (x, y)
+    #> extent      : 0, 360, -90, 90  (xmin, xmax, ymin, ymax)
+    #> coord. ref. : lon/lat WGS 84 (CRS84) (OGC:CRS84) 
+    #> source      : avhrr-only-v2.20160503.nc:sst 
+    #> varname     : sst (Daily sea surface temperature) 
+    #> name        : sst_zlev=0 
+    #> unit        :  degrees C 
+    #> time (days) : 2016-05-03
 
 ``` r
 plot(r)
@@ -214,27 +207,10 @@ plot(r)
 
 ![](README_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
 
-Note the longitudes are from 0 to 360 degrees. It is easy to change that
-so the image is correctly displayed:
+Rotate the raster:
 
 ``` r
-library(sp)
-
-coords <- coordinates(r)
-head(coords)
-```
-
-    #>          x      y
-    #> [1,] 0.125 89.875
-    #> [2,] 0.375 89.875
-    #> [3,] 0.625 89.875
-    #> [4,] 0.875 89.875
-    #> [5,] 1.125 89.875
-    #> [6,] 1.375 89.875
-
-``` r
-coords[1, ] <- ifelse(coords[1, ] > 180, coords[1, ] - 360, coords[1, ])
-# coordinates(r) <- coords
+r <- rotate(r)
 
 plot(r)
 ```
@@ -246,78 +222,11 @@ plot(r)
 <http://hdfeos.org/software/r.php>
 
 ``` r
-library(rgdal)
-```
-
-    #> Please note that rgdal will be retired by the end of 2023,
-    #> plan transition to sf/stars/terra functions using GDAL and PROJ
-    #> at your earliest convenience.
-    #> 
-    #> rgdal: version: 1.5-27, (SVN revision 1148)
-    #> Geospatial Data Abstraction Library extensions to R successfully loaded
-    #> Loaded GDAL runtime: GDAL 3.0.4, released 2020/01/28
-    #> Path to GDAL shared files: /usr/share/gdal
-    #> GDAL binary built with GEOS: TRUE 
-    #> Loaded PROJ runtime: Rel. 6.3.1, February 10th, 2020, [PJ_VERSION: 631]
-    #> Path to PROJ shared files: /usr/share/proj
-    #> Linking to sp version:1.4-5
-    #> To mute warnings of possible GDAL/OSR exportToProj4() degradation,
-    #> use options("rgdal_show_exportToProj4_warnings"="none") before loading sp or rgdal.
-
-``` r
-library(gdalUtils)
-sds <- get_subdatasets("data/MYD08_D3.A2003181.051.2008343213114.hdf")
-
-head(sds)
-```
-
-    #> [1] "HDF4_EOS:EOS_GRID:data/MYD08_D3.A2003181.051.2008343213114.hdf:mod08:Solar_Zenith_Mean"              
-    #> [2] "HDF4_EOS:EOS_GRID:data/MYD08_D3.A2003181.051.2008343213114.hdf:mod08:Solar_Zenith_Standard_Deviation"
-    #> [3] "HDF4_EOS:EOS_GRID:data/MYD08_D3.A2003181.051.2008343213114.hdf:mod08:Solar_Zenith_Minimum"           
-    #> [4] "HDF4_EOS:EOS_GRID:data/MYD08_D3.A2003181.051.2008343213114.hdf:mod08:Solar_Zenith_Maximum"           
-    #> [5] "HDF4_EOS:EOS_GRID:data/MYD08_D3.A2003181.051.2008343213114.hdf:mod08:Solar_Zenith_Pixel_Counts"      
-    #> [6] "HDF4_EOS:EOS_GRID:data/MYD08_D3.A2003181.051.2008343213114.hdf:mod08:Solar_Azimuth_Mean"
-
-``` r
-dat <- readGDAL(sds[6])
-```
-
-    #> HDF4_EOS:EOS_GRID:data/MYD08_D3.A2003181.051.2008343213114.hdf:mod08:Solar_Azimuth_Mean has GDAL driver HDF4Image 
-    #> and has 180 rows and 360 columns
-
-    #> Warning in getProjectionRef(x, OVERRIDE_PROJ_DATUM_WITH_TOWGS84 =
-    #> OVERRIDE_PROJ_DATUM_WITH_TOWGS84, : Discarded datum Not specified (based on
-    #> Clarke 1866 spheroid) in Proj4 definition: +proj=longlat +ellps=clrk66 +no_defs
-
-    #> Warning in showSRID(uprojargs, format = "PROJ", multiline = "NO", prefer_proj
-    #> = prefer_proj): Discarded datum Unknown based on Clarke 1866 ellipsoid in Proj4
-    #> definition
-
-``` r
-plot(dat)
-```
-
-![](README_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
-
-With the the `terra` package.
-
-``` r
 library(terra)
-```
 
-    #> terra version 1.4.20
-
-    #> 
-    #> Attaching package: 'terra'
-
-    #> The following object is masked from 'package:rgdal':
-    #> 
-    #>     project
-
-``` r
 filename <- "data/MYD08_D3.A2003181.051.2008343213114.hdf"
 
-sdss <- describe(filename, sds = TRUE, meta = FALSE)
+sdss <- describe(filename, sds = TRUE, meta = FALSE, parse = FALSE)
 
 head(sdss)
 ```
@@ -336,30 +245,23 @@ head(sdss)
     #> 4            HDF4_EOS:EOS_GRID:"data/MYD08_D3.A2003181.051.2008343213114.hdf":mod08:Solar_Zenith_Maximum
     #> 5       HDF4_EOS:EOS_GRID:"data/MYD08_D3.A2003181.051.2008343213114.hdf":mod08:Solar_Zenith_Pixel_Counts
     #> 6              HDF4_EOS:EOS_GRID:"data/MYD08_D3.A2003181.051.2008343213114.hdf":mod08:Solar_Azimuth_Mean
-    #>                                     var
-    #> 1               mod08:Solar_Zenith_Mean
-    #> 2 mod08:Solar_Zenith_Standard_Deviation
-    #> 3            mod08:Solar_Zenith_Minimum
-    #> 4            mod08:Solar_Zenith_Maximum
-    #> 5       mod08:Solar_Zenith_Pixel_Counts
-    #> 6              mod08:Solar_Azimuth_Mean
-    #>                                                               desc nrow ncol
-    #> 1               [180x360] Solar_Zenith_Mean mod08 (16-bit integer)  180  360
-    #> 2 [180x360] Solar_Zenith_Standard_Deviation mod08 (16-bit integer)  180  360
-    #> 3            [180x360] Solar_Zenith_Minimum mod08 (16-bit integer)  180  360
-    #> 4            [180x360] Solar_Zenith_Maximum mod08 (16-bit integer)  180  360
-    #> 5       [180x360] Solar_Zenith_Pixel_Counts mod08 (16-bit integer)  180  360
-    #> 6              [180x360] Solar_Azimuth_Mean mod08 (16-bit integer)  180  360
-    #>   nlyr
-    #> 1    1
-    #> 2    1
-    #> 3    1
-    #> 4    1
-    #> 5    1
-    #> 6    1
+    #>                               var
+    #> 1               Solar_Zenith_Mean
+    #> 2 Solar_Zenith_Standard_Deviation
+    #> 3            Solar_Zenith_Minimum
+    #> 4            Solar_Zenith_Maximum
+    #> 5       Solar_Zenith_Pixel_Counts
+    #> 6              Solar_Azimuth_Mean
+    #>                                                               desc nrow ncol nlyr
+    #> 1               [180x360] Solar_Zenith_Mean mod08 (16-bit integer)  180  360    1
+    #> 2 [180x360] Solar_Zenith_Standard_Deviation mod08 (16-bit integer)  180  360    1
+    #> 3            [180x360] Solar_Zenith_Minimum mod08 (16-bit integer)  180  360    1
+    #> 4            [180x360] Solar_Zenith_Maximum mod08 (16-bit integer)  180  360    1
+    #> 5       [180x360] Solar_Zenith_Pixel_Counts mod08 (16-bit integer)  180  360    1
+    #> 6              [180x360] Solar_Azimuth_Mean mod08 (16-bit integer)  180  360    1
 
 ``` r
-r <- rast(filename, 142)
+r <- rast(filename, 142L)
 
 plot(r)
 ```
@@ -399,31 +301,114 @@ df <- data.frame(lat = lat / 100000, lon = lon / 100000, thickness = sic)
 plot(df$lon, df$lat)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
 
 ``` r
 library(tidyverse)
-```
-
-    #> ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
-
-    #> ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
-    #> ✓ tibble  3.1.6     ✓ dplyr   1.0.7
-    #> ✓ tidyr   1.1.4     ✓ stringr 1.4.0
-    #> ✓ readr   2.1.0     ✓ forcats 0.5.1
-
-    #> ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-    #> x tidyr::extract()  masks terra::extract(), raster::extract()
-    #> x dplyr::filter()   masks stats::filter()
-    #> x dplyr::lag()      masks stats::lag()
-    #> x dplyr::select()   masks raster::select()
-    #> x purrr::simplify() masks terra::simplify()
-    #> x dplyr::src()      masks terra::src()
-
-``` r
-df %>% 
+df %>%
   ggplot(aes(x = lon, y = lat, color = sic)) +
   geom_point()
 ```
 
+![](README_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+
+## Sea ice concentration
+
+<ftp://ftp.awi.de/sea_ice/product/amsr2>
+
+``` r
+library(terra)
+
+r <- rast("/vsicurl/ftp://ftp.awi.de/sea_ice/product/amsr2/v110/nh/2022/08/nh_SIC-LEADS_2022080400_080412.tiff")
+
+r
+```
+
+    #> class       : SpatRaster 
+    #> dimensions  : 3584, 2432, 1  (nrow, ncol, nlyr)
+    #> resolution  : 3125, 3125  (x, y)
+    #> extent      : -3850000, 3750000, -5350000, 5850000  (xmin, xmax, ymin, ymax)
+    #> coord. ref. : WGS 84 / NSIDC Sea Ice Polar Stereographic North (EPSG:3413) 
+    #> source      : nh_SIC-LEADS_2022080400_080412.tiff 
+    #> color table : 1 
+    #> name        : nh_SIC-LEADS_2022080400_080412
+
+``` r
+plot(r)
+```
+
 ![](README_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+
+## h5e file
+
+<https://gist.github.com/mdsumner/08265bac3faf1e4325e2d5a39a5f66bf>
+
+``` r
+library(terra)
+library(gdalraster)
+library(stars)
+
+file <- "./data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5"
+sub <- paste0("NetCDF:", file, ":")
+
+sds <- gdal_subdatasets(sub)
+
+sf::gdal_utils("info", unlist(sds)[30])
+```
+
+    #> Driver: netCDF/Network Common Data Format
+    #> Files: ./data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5
+    #> Size is 608, 896
+    #> Metadata:
+    #>   /HDFEOS INFORMATION/NC_GLOBAL#HDFEOSVersion=HDFEOS_5.1.15
+    #>   /HDFEOS/GRIDS/NpPolarGrid12km/Data Fields/SI_12km_NH_ICECON_DAY#comment=data value meaning: 0 -- Open Water, 110 -- missing/not calculated, 120 -- Land
+    #>   /HDFEOS/GRIDS/NpPolarGrid12km/Data Fields/SI_12km_NH_ICECON_DAY#coordinates=lon lat
+    #>   /HDFEOS/GRIDS/NpPolarGrid12km/Data Fields/SI_12km_NH_ICECON_DAY#long_name=Sea ice concentration daily average
+    #>   /HDFEOS/GRIDS/NpPolarGrid12km/Data Fields/SI_12km_NH_ICECON_DAY#units=percent
+    #>   NC_GLOBAL#Conventions=CF-1.6
+    #>   NC_GLOBAL#history=This version of the Sea Ice processing code contains updates provided by the science team on September 16, 2019. For details on these updates, see the release notes provided in the DAP.
+    #>   NC_GLOBAL#institution=NASA's AMSR Science Investigator-led Processing System (SIPS)
+    #>   NC_GLOBAL#references=Please cite these data as: Markus, T., J. C. Comiso, and W. N. Meier. 2018. AMSR-E/AMSR2 Unified L3 Daily 12.5 km Brightness Temperatures, Sea Ice Concentration, Motion & Snow Depth Polar Grids, Version 1. [Indicate subset used]. Boulder, Colorado USA. NASA National Snow and Ice Data Center Distributed Active Archive Center. doi: https://doi.org/10.5067/RA1MIJOYPK3P.
+    #>   NC_GLOBAL#source=satellite observation
+    #>   NC_GLOBAL#title=AMSR-E/AMSR2 Unified L3 Daily 12.5 km Brightness Temperatures, Sea Ice Concentration, Motion & Snow Depth Polar Grids
+    #> Geolocation:
+    #>   GEOREFERENCING_CONVENTION=PIXEL_CENTER
+    #>   LINE_OFFSET=0
+    #>   LINE_STEP=1
+    #>   PIXEL_OFFSET=0
+    #>   PIXEL_STEP=1
+    #>   SRS=GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AXIS["Latitude",NORTH],AXIS["Longitude",EAST],AUTHORITY["EPSG","4326"]]
+    #>   X_BAND=1
+    #>   X_DATASET=NETCDF:"./data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5":/HDFEOS/GRIDS/NpPolarGrid12km/lon
+    #>   Y_BAND=1
+    #>   Y_DATASET=NETCDF:"./data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5":/HDFEOS/GRIDS/NpPolarGrid12km/lat
+    #> Corner Coordinates:
+    #> Upper Left  (    0.0,    0.0)
+    #> Lower Left  (    0.0,  896.0)
+    #> Upper Right (  608.0,    0.0)
+    #> Lower Right (  608.0,  896.0)
+    #> Center      (  304.0,  448.0)
+    #> Band 1 Block=608x1 Type=Int32, ColorInterp=Undefined
+    #>   Unit Type: percent
+    #>   Metadata:
+    #>     comment=data value meaning: 0 -- Open Water, 110 -- missing/not calculated, 120 -- Land
+    #>     coordinates=lon lat
+    #>     long_name=Sea ice concentration daily average
+    #>     NETCDF_VARNAME=SI_12km_NH_ICECON_DAY
+    #>     units=percent
+
+``` r
+dsn <- "/vsimem/temp.vrt"
+sf::gdal_utils(
+  "warp",
+  unlist(sds)[30],
+  dsn,
+  options = c("-t_srs", "EPSG:3411", "-overwrite")
+)
+
+r <- rast(dsn)
+
+plot(r)
+```
+
+![](README_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->

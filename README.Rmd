@@ -1,12 +1,14 @@
 ---
 output: github_document
-editor_options: 
+editor_options:
   chunk_output_type: console
 ---
 
 ```{r, include=FALSE}
-knitr::opts_chunk$set(
-  comment = "#>", echo = TRUE, fig.width = 6, cache = TRUE
+knitr::opts_chunk[["set"]](
+  comment = "#>",
+  echo = TRUE,
+  fig.width = 6L
 )
 ```
 
@@ -22,6 +24,7 @@ How to read common remote sensing products.
 ## L3BIN
 
 Applies to:
+
 - MODIS Terra and Aqua
 
 HDF5 L3BIN files can be read using the `rhdf5` package from bioconductor. The installation can be done as follow:
@@ -29,10 +32,11 @@ HDF5 L3BIN files can be read using the `rhdf5` package from bioconductor. The in
 ```{r, eval = FALSE}
 # https://bioconductor.org/install/
 
-if (!require("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
+if (!require("BiocManager", quietly = TRUE)) {
+  install.packages("BiocManager")
+}
 
-BiocManager::install(version = "3.14")
+BiocManager::install()
 
 BiocManager::install("rhdf5")
 
@@ -56,7 +60,7 @@ head(df)
 
 Where:
 
-- `sum`  = the sum of the pixels in the bin
+- `sum` = the sum of the pixels in the bin
 - `sum_squared` = the squared sum
 
 It is to be noted that the observed values need to be weighted. The weighted values can be found in the `BinList` layer:
@@ -64,15 +68,9 @@ It is to be noted that the observed values need to be weighted. The weighted val
 ```{r}
 bins <- h5read("data/A2016160.L3b_DAY_CHL.nc", "/level-3_binned_data/BinList")
 
-df$sum <- df$sum / bins$weights
+df[["sum"]] <- df[["sum"]] / bins[["weights"]]
 
 head(df)
-```
-
-In Matlab:
-
-```matlab
-res = h5read('A2016009.L3b_DAY_CHL.nc', '/level-3_binned_data/chlor_a');
 ```
 
 ## NetCDF 4
@@ -98,63 +96,43 @@ sst <- ncvar_get(f, "sst")
 dim(sst)
 ```
 
-It is also possible to open NetCDF4 file using the `raster()` function:
+It is also possible to open NetCDF4 file using the `rast()` function:
 
 ```{r}
-library(raster)
-r <- raster("data/avhrr-only-v2.20160503.nc", varname = "sst") 
+library(terra)
+r <- rast("data/avhrr-only-v2.20160503.nc", lyrs = 1L)
+
 r
 
 plot(r)
 ```
 
-Note the longitudes are from 0 to 360 degrees. It is easy to change that so the image is correctly displayed:
+Rotate the raster:
 
 ```{r}
-library(sp)
-
-coords <- coordinates(r)
-head(coords)
-
-coords[1, ] <- ifelse(coords[1, ] > 180, coords[1, ] - 360, coords[1, ])
-# coordinates(r) <- coords
+r <- rotate(r)
 
 plot(r)
 ```
+
 
 ## HDF4
 
 http://hdfeos.org/software/r.php
 
-```{r}
-library(rgdal)
-library(gdalUtils)
-sds <- get_subdatasets("data/MYD08_D3.A2003181.051.2008343213114.hdf")
-
-head(sds)
-
-dat <- readGDAL(sds[6])
-
-plot(dat)
-```
-
-With the the `terra` package.
-
-```{r terra-hdf}
+```{r terra-hdf, cache=TRUE}
 library(terra)
 
 filename <- "data/MYD08_D3.A2003181.051.2008343213114.hdf"
 
-sdss <- describe(filename, sds = TRUE, meta = FALSE)
+sdss <- describe(filename, sds = TRUE, meta = FALSE, parse = FALSE)
 
 head(sdss)
 
-r <- rast(filename, 142)
+r <- rast(filename, 142L)
 
 plot(r)
-
 ```
-
 
 ## NSIDC data
 
@@ -187,13 +165,54 @@ lon <-
 df <- data.frame(lat = lat / 100000, lon = lon / 100000, thickness = sic)
 
 plot(df$lon, df$lat)
-
 ```
 
 ```{r}
 library(tidyverse)
-df %>% 
+df %>%
   ggplot(aes(x = lon, y = lat, color = sic)) +
   geom_point()
 ```
 
+## Sea ice concentration
+
+ftp://ftp.awi.de/sea_ice/product/amsr2
+
+```{r}
+library(terra)
+
+r <- rast("/vsicurl/ftp://ftp.awi.de/sea_ice/product/amsr2/v110/nh/2022/08/nh_SIC-LEADS_2022080400_080412.tiff")
+
+r
+
+plot(r)
+```
+
+## h5e file
+
+https://gist.github.com/mdsumner/08265bac3faf1e4325e2d5a39a5f66bf
+
+```{r}
+library(terra)
+library(gdalraster)
+library(stars)
+
+file <- "./data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5"
+sub <- paste0("NetCDF:", file, ":")
+
+sds <- gdal_subdatasets(sub)
+
+sf::gdal_utils("info", unlist(sds)[30])
+
+dsn <- "/vsimem/temp.vrt"
+sf::gdal_utils(
+  "warp",
+  unlist(sds)[30],
+  dsn,
+  options = c("-t_srs", "EPSG:3411", "-overwrite")
+)
+
+r <- rast(dsn)
+
+plot(r)
+```
