@@ -40,3 +40,8 @@ po/*~
 # R package: bookdown caching files
 # End of https://www.toptal.com/developers/gitignore/api/r
 .opencommitignore
+
+/.quarto/
+_book
+/*_files/
+
