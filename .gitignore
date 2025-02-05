@@ -39,3 +39,4 @@ po/*~
 ### R.Bookdown Stack ###
 # R package: bookdown caching files
 # End of https://www.toptal.com/developers/gitignore/api/r
+.opencommitignore
