@@ -115,7 +115,6 @@ r <- rotate(r)
 plot(r)
 ```
 
-
 ## HDF4
 
 http://hdfeos.org/software/r.php
@@ -139,8 +138,8 @@ plot(r)
 ```{r}
 sic <- readBin("data/nsidc/nt_20171002_f17_v1.1_n.bin",
   what = "integer",
-  n = 304 * 448,
-  size = 1,
+  n = 304L * 448L,
+  size = 1L,
   signed = F
 )
 
@@ -148,8 +147,8 @@ lat <-
   readBin(
     "data/nsidc/psn25lats_v3.dat",
     what = "integer",
-    n = 304 * 448,
-    size = 4,
+    n = 304L * 448L,
+    size = 4L,
     signed = TRUE
   )
 
@@ -157,12 +156,12 @@ lon <-
   readBin(
     "data/nsidc/psn25lons_v3.dat",
     what = "integer",
-    n = 304 * 448,
-    size = 4,
+    n = 304L * 448L,
+    size = 4L,
     signed = TRUE
   )
 
-df <- data.frame(lat = lat / 100000, lon = lon / 100000, thickness = sic)
+df <- data.frame(lat = lat / 100000L, lon = lon / 100000L, thickness = sic)
 
 plot(df$lon, df$lat)
 ```
@@ -202,12 +201,12 @@ sub <- paste0("NetCDF:", file, ":")
 
 sds <- gdal_subdatasets(sub)
 
-sf::gdal_utils("info", unlist(sds)[30])
+sf::gdal_utils("info", unlist(sds)[30L])
 
 dsn <- "/vsimem/temp.vrt"
 sf::gdal_utils(
   "warp",
-  unlist(sds)[30],
+  unlist(sds)[30L],
   dsn,
   options = c("-t_srs", "EPSG:3411", "-overwrite")
 )
