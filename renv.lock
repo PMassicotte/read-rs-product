@@ -2614,6 +2614,12 @@
       "Maintainer": "Philippe Massicotte <pmassicotte@hotmail.com>",
       "Repository": "RSPM"
     },
+    "rnaturalearthdata": {
+      "Package": "rnaturalearthdata",
+      "Version": "1.0.0",
+      "Source": "Repository",
+      "Repository": "RSPM"
+    },
     "rprojroot": {
       "Package": "rprojroot",
       "Version": "2.0.4",
