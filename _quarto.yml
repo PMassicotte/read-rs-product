@@ -1,0 +1,34 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: "R Spatial Cookbook"
+  author: "Philippe Massicotte"
+  date: "today"
+  chapters:
+    - index.qmd
+    - modis.qmd
+    - hdf4.qmd
+    - nsidc.qmd
+    - he5.qmd
+    - vsicurl.qmd
+    - filtering.qmd
+    - references.qmd
+
+format:
+  html:
+    fig-format: svg
+    fig-align: center
+    highlight-style: a11y
+    df-print: kable
+    toc-depth: 4
+    toc-expand: 4
+    theme:
+      - cosmo
+      - brand
+
+execute:
+  warning: false
+  message: false
+  freeze: auto

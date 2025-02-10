@@ -1,0 +1,58 @@
+# GDAL Virtual File Systems
+
+```{r}
+#| label: setup
+library(terra)
+```
+
+## Reading the data from a GeoTIFF file
+
+- `vsicurl`: https://gdal.org/drivers/raster/vsicurl.html is a GDAL virtual file system that allows reading files from a URL.
+
+```{r}
+#| label: vsicurl
+
+r <- terra::rast(
+  "/vsicurl/https://gebco2023.s3.valeria.science/gebco_2023_sub_ice_topo_cog.tif"
+)
+
+r
+
+plot(r)
+```
+
+## vsigzip
+
+- `vsigzip`: https://gdal.org/drivers/raster/vsigzip.html is a GDAL virtual file system that allows reading files from a gzip compressed file.
+
+```{r}
+#| label: vsigzip
+
+sic <- rast(
+  "/vsigzip//vsicurl/ftp://ftp-projects.cen.uni-hamburg.de/seaice/AMSR2/3.125km/Arc_20201010_res3.125_pyres.nc.gz",
+  "sea_ice_concentration"
+)
+
+sic
+
+plot(sic)
+```
+
+From the documentation, we expect that data to be in [polar stereographic projection with a specific extent](https://nsidc.org/data/user-resources/help-center/guide-nsidcs-polar-stereographic-projection). However, the data does not have the correct extent and projection. We can set the extent and projection manually:
+
+```{r}
+#| label: projection
+# Set the extent
+ext(sic) <- ext(-3850000L, 3750000L, -5350000L, 5850000L)
+
+# Set the polar stereographic projection
+crs(sic) <- "EPSG:3413"
+
+sic
+```
+
+Now the data has the correct extent and projection. Each pixel represents the sea ice concentration in a 3.125 km x 3.125 km area.
+
+```{r}
+plot(sic)
+```

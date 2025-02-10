@@ -1,0 +1,108 @@
+# MODIS
+
+```{r}
+#| label: setup
+
+library(tidyverse)
+library(rhdf5)
+library(gdalraster)
+library(stars)
+library(terra)
+```
+
+In these examples, we will use data from: [Earth data](https://oceandata.sci.gsfc.nasa.gov/directdataaccess/). This website provides direct access to ocean color data products from various satellite missions, including MODIS. You can find Level-3 binned and mapped data here.
+
+## L3BIN (Level-3 Binned Data) - HDF5
+
+Level-3 binned (L3b) files are HDF5 files containing data that has been statistically processed and binned into spatial grids. The data is organized in layers, where each layer represents a different variable. These layers are stored in the `/level-3_binned_data` group within the HDF5 file. The `BinList` layer is particularly important, as it contains the bin information, such as the bin's coordinates and the bin's weights, which are crucial for proper interpretation of the data.
+
+In R, these files can be read using the `rhdf5` package from [bioconductor](https://bioconductor.org/install/). If you haven't already, you'll need to install the `rhdf5` package. The following code shows how to install the package and then reads the `chlor_a` layer (chlorophyll-a concentration) from the file `A2016160.L3b_DAY_CHL.nc`:
+
+It's important to note that `BiocManager` is a package specifically designed for installing and managing packages from the Bioconductor project, which focuses on bioinformatics and computational biology tools.
+
+```{r}
+#| eval: false
+
+if (!require("BiocManager", quietly = TRUE)) {
+  install.packages("BiocManager")
+}
+
+BiocManager::install()
+
+BiocManager::install("rhdf5")
+```
+
+The `h5ls()` function will list all the layers included in the HDF5 file. This is useful for exploring the file's structure and identifying the available datasets.
+
+```{r}
+file <- fs::path("data", "AQUA_MODIS.20160608.L3b.DAY.CHL.nc")
+h5ls(file)
+```
+
+Finally, use `h5read()` to open a specific layer:
+
+```{r}
+df <- h5read(file, "/level-3_binned_data/chlor_a")
+head(df)
+```
+
+The resulting data frame `df` will contain the binned chlorophyll-a data. The columns in this data frame represent:
+
+- `sum`: The sum of the chlorophyll-a values of all pixels within the bin.
+- `sum_squared`: The sum of the squared chlorophyll-a values within the bin. This can be used to calculate the variance or standard deviation of the data within the bin.
+
+::: {.callout-important}
+
+## Important: Applying Weights
+
+It is crucial to understand that the observed values in the `sum` column need to be weighted to obtain the actual average chlorophyll-a concentration for each bin. The weights, representing the relative contribution of each pixel to the bin, are stored in the `BinList` layer.
+
+:::
+
+To apply the weights, read the `BinList` layer and divide the `sum` column by the `weights` column:
+
+```{r}
+bins <- h5read(file, "/level-3_binned_data/BinList")
+
+df[["sum"]] <- df[["sum"]] / bins[["weights"]]
+
+head(df)
+```
+
+The `df[["sum"]]` column now contains the weighted average chlorophyll-a concentration for each bin. You can now perform further analysis or visualization with this data.
+
+## L3MAP (Level-3 Mapped Data) - NetCDF
+
+Level-3 mapped (L3m) data represents geophysical variables projected onto a regular grid. These files are typically easier to visualize than L3b data because they are already in a gridded format.
+
+```{r}
+file <- fs::path("data", "AQUA_MODIS.20160608.L3m.DAY.CHL.chlor_a.4km.nc")
+
+r <- rast(file)
+
+r
+```
+
+This shows the raster's metadata, such as the number of layers, the number of rows and columns, the resolution, and the extent.
+
+```{r}
+wm <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
+
+plot(wm[["geometry"]], col = "lightgray", lwd = 0.5)
+plot(r, add = TRUE, col = terrain.colors(10L))
+```
+
+## L3BIN (Level-3 Binned Data) - hdf4
+
+```{r}
+#| label: hdf4
+
+filename <- fs::path("data", "MYD08_D3.A2003181.051.2008343213114.hdf")
+
+sdss <- describe(filename, sds = TRUE, meta = FALSE, parse = FALSE)
+head(sdss)
+
+r <- rast(filename, 142L)
+
+plot(r)
+```

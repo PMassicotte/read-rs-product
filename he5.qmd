@@ -1,0 +1,55 @@
+# Working with HE5 Files for Sea Ice Data
+
+This section demonstrates how to access and visualize sea ice concentration data stored in HE5 files, focusing on data from the AMSR-E/AMSR2 Unified L3 Daily 12.5 km dataset. We'll use R along with the `gdalraster`, `stars`, `terra`, and `sf` packages.
+
+::: {.callout-note}
+
+## Disclaimer
+
+The code below is largely based/copied on the work of [mdsumner](https://gist.github.com/mdsumner/08265bac3faf1e4325e2d5a39a5f66bf).
+
+:::
+
+```{r}
+#| label: setup
+library(gdalraster)
+library(stars)
+library(terra)
+```
+
+```{r}
+file <- fs::path(
+  "data",
+  "AMSR_U2_L3_SeaIce12km_B04_20140314.he5"
+)
+```
+
+The code leverages the NetCDF interface to access subdatasets within the HE5 file. This allows us to access the geolocation arrays, which is crucial for proper spatial referencing.
+
+```{r}
+sub <- paste0("NetCDF:", file, ":")
+sds <- gdal_subdatasets(sub)
+
+sf::gdal_utils("info", unlist(sds)[[30L]])
+```
+
+The data needs to be transformed to a standard coordinate reference system (CRS). EPSG:3411 (NSIDC Sea Ice Polar Stereographic North) is commonly used for Northern Hemisphere sea ice data. The `gdal_utils()` function warps the data to this CRS and saves it to a temporary VRT (Virtual Raster) file. VRT files are useful because they act as a pointer to the original data without duplicating it, and allow for on-the-fly transformations.
+
+```{r}
+dsn <- "/vsimem/temp.vrt"
+
+sf::gdal_utils(
+  "warp",
+  unlist(sds)[[30L]],
+  dsn,
+  options = c("-t_srs", "EPSG:3411", "-overwrite")
+)
+```
+
+The `rast()` function from the `terra` package is used to read the VRT file and create a `SpatRaster` object. This object contains the sea ice concentration data, which can be visualized using the `plot()` function.
+
+```{r}
+r <- rast(dsn)
+
+plot(r)
+```

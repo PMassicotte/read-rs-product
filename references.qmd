@@ -1,0 +1,16 @@
+# Additional Resources {.unnumbered}
+
+## Useful Links {.unnumbered}
+
+- [HDF EOS Tools and Information Center](http://hdfeos.org/software/r.php)
+- [AMSR-E/AMSR2 Unified L3 Daily 12.5 km Brightness Temperatures, Sea Ice Concentration, Motion & Snow Depth Polar Grids, Version 1](https://nsidc.org/sites/default/files/au_si12-v001-userguide_1.pdf)
+
+## Session Info {.unnumbered}
+
+<details>
+
+```{r}
+sessioninfo::session_info()
+```
+
+</details>

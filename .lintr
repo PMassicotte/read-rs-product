@@ -40,7 +40,6 @@ linters: linters_with_defaults(
   literal_coercion_linter(),
   missing_argument_linter(),
   missing_package_linter(),
-  namespace_linter(),
   nested_ifelse_linter(),
   nonportable_path_linter(),
   nonportable_path_linter(lax = TRUE),

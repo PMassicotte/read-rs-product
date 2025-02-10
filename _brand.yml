@@ -1,0 +1,62 @@
+meta:
+  name:
+    short: Everforest
+    full: Everforest Brand Theme
+  link:
+    home: https://everforest.example.com
+    github: https://github.com/everforest-theme
+
+color:
+  palette:
+    soft-green: "#a7c080"
+    forest-brown: "#5c6a72"
+    dusk-gray: "#859289"
+    background-dark: "#2d353b"
+    background-light: "#FFFBEF"
+    warning-orange: "#F57D26"
+    error-red: "#e67e80"
+    accent-blue: "#7fbbb3"
+
+  foreground: forest-brown
+  background: background-light
+  primary: warning-orange
+  secondary: dusk-gray
+  tertiary: accent-blue
+  success: soft-green
+  info: accent-blue
+  warning: warning-orange
+  danger: error-red
+  light: background-light
+  dark: background-dark
+
+typography:
+  fonts:
+    - family: Inter
+      source: google
+      weight: [400, 600]
+      style: [normal, italic]
+    - family: Fira Code
+      source: google
+      weight: [400, 500]
+      style: [normal, italic]
+
+  base:
+    family: Inter
+    weight: 400
+    size: 16px
+    line-height: 1.5
+  headings:
+    family: Inter
+    weight: 600
+    line-height: 1.2
+    color: forest-brown
+  monospace:
+    family: Fira Code
+    weight: 400
+    size: 0.9em
+  monospace-inline:
+    color: error-red
+    background-color: background-light
+    weight: 600
+  monospace-block:
+    color: foreground

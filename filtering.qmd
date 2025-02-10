@@ -1,0 +1,153 @@
+# Filtering spatial data
+
+In this tutorial, we will explore different methods to filter spatial data using the `sf` package in R. We will use the [Canadian Wind Turbine Database](https://open.canada.ca/data/en/dataset/79fdad93-9025-49ad-ba16-c26d718cc070) as our example dataset.
+
+## Filtering spatial data with `sf`
+
+The Canadian Wind Turbine Database contains the geographic location and key technology details for wind turbines installed in Canada.
+
+```{r}
+#| fig-width: 12
+library(tidyverse)
+library(sf)
+library(DBI)
+library(duckdb)
+
+# URL to the wind turbine database
+url <- "/vsizip//vsicurl/https://ftp.cartes.canada.ca/pub/nrcan_rncan/Wind-energy_Energie-eolienne/wind_turbines_database/wind_turbine_database_en.gdb.zip"
+
+# List layers in the dataset
+st_layers(url)
+
+# Read the entire dataset
+pts <- read_sf(url)
+
+# Load and transform Canada map
+canada <- rnaturalearth::ne_countries(
+  scale = "medium",
+  returnclass = "sf",
+  country = "Canada"
+) |>
+  st_transform(crs = "EPSG:3978")
+
+# Plot the map with wind turbine points
+ggplot() +
+  geom_sf(data = canada) +
+  geom_sf(data = pts, color = "red", size = 0.5)
+```
+
+## Filtering spatial data with a bounding box
+
+To avoid loading the entire dataset into memory, we can filter the data using a bounding box. This is particularly useful when working with large datasets. We can leverage the `wkt_filter` argument to filter spatial data and reduce the amount of data loaded into memory.
+
+```{r}
+# Read and transform the area of interest
+area <- read_sf(fs::path("data", "area.geojson")) |>
+  st_transform(crs = st_crs(pts))
+
+# Plot the map with the area of interest
+ggplot() +
+  geom_sf(data = canada) +
+  geom_sf(data = area, color = "blue", fill = NA, linewidth = 1L) +
+  geom_sf(data = pts, color = "red", size = 0.5)
+```
+
+Instead of loading the entire dataset into memory, we can filter the data using a bounding box.
+
+```{r}
+# Convert the area geometry to WKT
+wkt <- area |>
+  st_geometry() |>
+  st_as_text()
+
+# Read the filtered dataset using the bounding box
+filtered <- read_sf(url, wkt_filter = wkt) |>
+  select(-Notes)
+
+# Plot the filtered data
+ggplot() +
+  geom_sf(data = canada) +
+  geom_sf(data = area, color = "blue", fill = NA, linewidth = 1L) +
+  geom_sf(data = filtered, color = "red", size = 0.5)
+
+# Display the number of rows and the first few rows of the filtered data
+nrow(filtered)
+head(filtered)
+```
+
+## Refining the filter with a user-defined SQL query
+
+We can further refine our filter by using a user-defined query. For example, we can filter the wind turbines based on their rated capacity.
+
+```{r}
+# Display the range of turbine capacities
+range(filtered[["Turbine_Rated_Capacity__kW_"]])
+```
+
+To refine the filter, we can use a custom query to select only the wind turbines with a rated capacity greater than 4000 kW. First, we need to identify the layer name to use in the SQL query.
+
+```{r}
+# List layers in the dataset
+st_layers(url)
+```
+
+We can use `wind_turbine` as the layer name in the custom query.
+
+```{r}
+
+# Read the filtered dataset with a custom query
+high_capacity <- read_sf(
+  url,
+  wkt_filter = wkt,
+  query = "SELECT * FROM wind_turbine WHERE Turbine_Rated_Capacity__kW_ > 4000"
+) |>
+  select(-Notes)
+
+# Display the number of rows and the first few rows of the high capacity data
+nrow(high_capacity)
+
+# Plot the high capacity turbines
+ggplot() +
+  geom_sf(data = canada) +
+  geom_sf(data = area, color = "blue", fill = NA, linewidth = 1L) +
+  geom_sf(data = high_capacity, color = "red", size = 0.5)
+```
+
+## Filtering spatial data with DuckDB
+
+In this section, we will demonstrate how to filter spatial data using DuckDB. DuckDB is an embedded analytical database that supports spatial extensions.
+
+```{r}
+#| eval: false
+# Connect to DuckDB
+conn <- dbConnect(duckdb())
+
+# Install and load the spatial extension
+dbSendQuery(conn, "INSTALL spatial;")
+dbSendQuery(conn, "LOAD spatial;")
+
+# Create a table with spatial data filtered by a bounding box
+dbSendQuery(
+  conn,
+  "
+  CREATE
+  OR REPLACE TABLE t AS
+  SELECT
+   *,
+   ST_asWKB(geom) AS geometry
+  FROM
+   ST_Read('/vsis3/spatial-playground/gmw_v3.fgb', spatial_filter_box = {'min_x' : - 30, 'min_y' : 0, 'max_x' : - 50, 'max_y' : 45});
+  "
+)
+
+# Read the filtered data from DuckDB
+read_sf(conn, query = "SELECT * FROM t", geometry_column = "geometry")
+
+# Read the filtered data with an additional computed area column
+read_sf(
+  conn,
+  query = "SELECT *, ST_Area(geom) as area1 FROM t",
+  geometry_column = "geometry"
+) |>
+  mutate(area2 = st_area(geometry), .after = area1)
+```
