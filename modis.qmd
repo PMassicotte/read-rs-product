@@ -96,7 +96,7 @@ plot(r, add = TRUE, col = terrain.colors(10L))
 ```{r}
 #| label: hdf4
 
-filename <- fs::path("data", "MYD08_D3.A2003181.051.2008343213114.hdf")
+filename <- fs::path("data", "MYD08_D3.A2003181.061.2018007232726.hdf")
 
 sdss <- describe(filename, sds = TRUE, meta = FALSE, parse = FALSE)
 head(sdss)
