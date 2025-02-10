@@ -3,7 +3,6 @@
 ```{r}
 #| label: setup
 
-library(tidyverse)
 library(rhdf5)
 library(gdalraster)
 library(stars)

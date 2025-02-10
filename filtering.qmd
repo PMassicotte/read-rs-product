@@ -8,10 +8,10 @@ The Canadian Wind Turbine Database contains the geographic location and key tech
 
 ```{r}
 #| fig-width: 12
-library(tidyverse)
 library(sf)
 library(DBI)
 library(duckdb)
+library(ggplot2)
 
 # URL to the wind turbine database
 url <- "/vsizip//vsicurl/https://ftp.cartes.canada.ca/pub/nrcan_rncan/Wind-energy_Energie-eolienne/wind_turbines_database/wind_turbine_database_en.gdb.zip"
@@ -61,8 +61,9 @@ wkt <- area |>
   st_as_text()
 
 # Read the filtered dataset using the bounding box
-filtered <- read_sf(url, wkt_filter = wkt) |>
-  select(-Notes)
+filtered <- read_sf(url, wkt_filter = wkt)
+filtered[["Notes"]] <- NULL
+
 
 # Plot the filtered data
 ggplot() +
@@ -100,8 +101,9 @@ high_capacity <- read_sf(
   url,
   wkt_filter = wkt,
   query = "SELECT * FROM wind_turbine WHERE Turbine_Rated_Capacity__kW_ > 4000"
-) |>
-  select(-Notes)
+)
+
+high_capacity[["Notes"]] <- NULL
 
 # Display the number of rows and the first few rows of the high capacity data
 nrow(high_capacity)
