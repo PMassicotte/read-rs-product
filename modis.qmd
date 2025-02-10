@@ -7,6 +7,7 @@ library(rhdf5)
 library(gdalraster)
 library(stars)
 library(terra)
+library(rnaturalearth)
 ```
 
 In these examples, we will use data from: [Earth data](https://oceandata.sci.gsfc.nasa.gov/directdataaccess/). This website provides direct access to ocean color data products from various satellite missions, including MODIS. You can find Level-3 binned and mapped data here.
@@ -16,8 +17,6 @@ In these examples, we will use data from: [Earth data](https://oceandata.sci.gsf
 Level-3 binned (L3b) files are HDF5 files containing data that has been statistically processed and binned into spatial grids. The data is organized in layers, where each layer represents a different variable. These layers are stored in the `/level-3_binned_data` group within the HDF5 file. The `BinList` layer is particularly important, as it contains the bin information, such as the bin's coordinates and the bin's weights, which are crucial for proper interpretation of the data.
 
 In R, these files can be read using the `rhdf5` package from [bioconductor](https://bioconductor.org/install/). If you haven't already, you'll need to install the `rhdf5` package. The following code shows how to install the package and then reads the `chlor_a` layer (chlorophyll-a concentration) from the file `A2016160.L3b_DAY_CHL.nc`:
-
-It's important to note that `BiocManager` is a package specifically designed for installing and managing packages from the Bioconductor project, which focuses on bioinformatics and computational biology tools.
 
 ```{r}
 #| eval: false
@@ -85,7 +84,7 @@ r
 This shows the raster's metadata, such as the number of layers, the number of rows and columns, the resolution, and the extent.
 
 ```{r}
-wm <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
+wm <- ne_countries(scale = "medium", returnclass = "sf")
 
 plot(wm[["geometry"]], col = "lightgray", lwd = 0.5)
 plot(r, add = TRUE, col = terrain.colors(10L))
