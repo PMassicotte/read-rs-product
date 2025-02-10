@@ -19,6 +19,9 @@ jobs:
         with:
           lfs: true
 
+      - name: Fetch LFS files
+        run: git lfs pull
+
       - name: Install System Dependencies
         run: sudo apt-get install -y gdal-bin libgdal-dev libudunits2-dev
 
