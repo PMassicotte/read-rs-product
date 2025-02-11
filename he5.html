@@ -102,6 +102,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 
 
 </head>
@@ -266,16 +268,16 @@ Metadata:
   NC_GLOBAL#source=satellite observation
   NC_GLOBAL#title=AMSR-E/AMSR2 Unified L3 Daily 12.5 km Brightness Temperatures, Sea Ice Concentration, Motion &amp; Snow Depth Polar Grids
 Geolocation:
-  GEOREFERENCING_CONVENTION=PIXEL_CENTER
-  LINE_OFFSET=0
-  LINE_STEP=1
+  SRS=GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AXIS["Latitude",NORTH],AXIS["Longitude",EAST],AUTHORITY["EPSG","4326"]]
+  X_DATASET=NETCDF:"data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5":/HDFEOS/GRIDS/NpPolarGrid12km/lon
+  X_BAND=1
+  Y_DATASET=NETCDF:"data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5":/HDFEOS/GRIDS/NpPolarGrid12km/lat
+  Y_BAND=1
   PIXEL_OFFSET=0
   PIXEL_STEP=1
-  SRS=GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AXIS["Latitude",NORTH],AXIS["Longitude",EAST],AUTHORITY["EPSG","4326"]]
-  X_BAND=1
-  X_DATASET=NETCDF:"data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5":/HDFEOS/GRIDS/NpPolarGrid12km/lon
-  Y_BAND=1
-  Y_DATASET=NETCDF:"data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5":/HDFEOS/GRIDS/NpPolarGrid12km/lat
+  LINE_OFFSET=0
+  LINE_STEP=1
+  GEOREFERENCING_CONVENTION=PIXEL_CENTER
 Corner Coordinates:
 Upper Left  (    0.0,    0.0)
 Lower Left  (    0.0,  896.0)
@@ -285,11 +287,11 @@ Center      (  304.0,  448.0)
 Band 1 Block=608x1 Type=Int32, ColorInterp=Undefined
   Unit Type: percent
   Metadata:
-    comment=data value meaning: 0 -- Open Water, 110 -- missing/not calculated, 120 -- Land
+    NETCDF_VARNAME=SI_12km_NH_ICECON_DAY
     coordinates=lon lat
     long_name=Sea ice concentration daily average
-    NETCDF_VARNAME=SI_12km_NH_ICECON_DAY
-    units=percent</code></pre>
+    units=percent
+    comment=data value meaning: 0 -- Open Water, 110 -- missing/not calculated, 120 -- Land</code></pre>
 </div>
 </div>
 <p>The data needs to be transformed to a standard coordinate reference system (CRS). EPSG:3411 (NSIDC Sea Ice Polar Stereographic North) is commonly used for Northern Hemisphere sea ice data. The <code>gdal_utils()</code> function warps the data to this CRS and saves it to a temporary VRT (Virtual Raster) file. VRT files are useful because they act as a pointer to the original data without duplicating it, and allow for on-the-fly transformations.</p>
