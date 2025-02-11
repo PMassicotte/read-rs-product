@@ -131,6 +131,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">R Spatial Cookbook</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/PMassicotte/r-spatial-cookbook" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+</div>
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -202,7 +205,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#open-netcdf-file-using-rast" id="toc-open-netcdf-file-using-rast" class="nav-link" data-scroll-target="#open-netcdf-file-using-rast"><span class="header-section-number">2.2</span> Open NetCDF file using <code>rast()</code></a></li>
   <li><a href="#compare-the-values-wip" id="toc-compare-the-values-wip" class="nav-link" data-scroll-target="#compare-the-values-wip"><span class="header-section-number">2.3</span> Compare the values (WIP)</a></li>
   </ul>
-</nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/PMassicotte/r-spatial-cookbook/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -234,7 +237,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="2.1" class="anchored" data-anchor-id="netcdf-network-common-data-form"><span class="header-section-number">2.1</span> NetCDF (Network Common Data Form)</h2>
 <p>Layers in the file can be listed using the <code>nc_open()</code> function:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>file <span class="ot">&lt;-</span> <span class="st">"data/avhrr-only-v2.20160503.nc"</span></span>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>file <span class="ot">&lt;-</span> fs<span class="sc">::</span><span class="fu">path</span>(<span class="st">"data"</span>, <span class="st">"avhrr-only-v2.20160503.nc"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">nc_open</span>(file)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>f</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -341,7 +344,7 @@ time (days) : 2016-05-03 </code></pre>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="hdf4_files/figure-html/unnamed-chunk-4-1.svg" class="img-fluid figure-img"></p>
+<p><img src="hdf4_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -354,7 +357,7 @@ time (days) : 2016-05-03 </code></pre>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="hdf4_files/figure-html/unnamed-chunk-5-1.svg" class="img-fluid figure-img"></p>
+<p><img src="hdf4_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1018,4 +1021,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-</body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/PMassicotte/r-spatial-cookbook/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
