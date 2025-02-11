@@ -20,7 +20,8 @@ book:
 
 format:
   html:
-    fig-format: svg
+    fig-format: png
+    fig-dpi: 300
     fig-align: center
     highlight-style: a11y
     df-print: kable

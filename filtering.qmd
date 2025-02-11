@@ -7,7 +7,6 @@ In this tutorial, we will explore different methods to filter spatial data using
 The Canadian Wind Turbine Database contains the geographic location and key technology details for wind turbines installed in Canada.
 
 ```{r}
-#| fig-width: 12
 library(sf)
 library(DBI)
 library(duckdb)

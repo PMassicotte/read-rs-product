@@ -10,7 +10,7 @@ library(ncdf4)
 Layers in the file can be listed using the `nc_open()` function:
 
 ```{r}
-file <- "data/avhrr-only-v2.20160503.nc"
+file <- fs::path("data", "avhrr-only-v2.20160503.nc")
 
 f <- nc_open(file)
 f
