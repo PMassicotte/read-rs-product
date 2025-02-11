@@ -74,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-974e931fc677b4491de43dc9219a33ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-6726751cc9a417ccb3c7268f693117bd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-bde82408f62f05fe072dcba944330ca3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -269,16 +269,16 @@ Metadata:
   NC_GLOBAL#source=satellite observation
   NC_GLOBAL#title=AMSR-E/AMSR2 Unified L3 Daily 12.5 km Brightness Temperatures, Sea Ice Concentration, Motion &amp; Snow Depth Polar Grids
 Geolocation:
-  GEOREFERENCING_CONVENTION=PIXEL_CENTER
-  LINE_OFFSET=0
-  LINE_STEP=1
+  SRS=GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AXIS["Latitude",NORTH],AXIS["Longitude",EAST],AUTHORITY["EPSG","4326"]]
+  X_DATASET=NETCDF:"data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5":/HDFEOS/GRIDS/NpPolarGrid12km/lon
+  X_BAND=1
+  Y_DATASET=NETCDF:"data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5":/HDFEOS/GRIDS/NpPolarGrid12km/lat
+  Y_BAND=1
   PIXEL_OFFSET=0
   PIXEL_STEP=1
-  SRS=GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AXIS["Latitude",NORTH],AXIS["Longitude",EAST],AUTHORITY["EPSG","4326"]]
-  X_BAND=1
-  X_DATASET=NETCDF:"data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5":/HDFEOS/GRIDS/NpPolarGrid12km/lon
-  Y_BAND=1
-  Y_DATASET=NETCDF:"data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5":/HDFEOS/GRIDS/NpPolarGrid12km/lat
+  LINE_OFFSET=0
+  LINE_STEP=1
+  GEOREFERENCING_CONVENTION=PIXEL_CENTER
 Corner Coordinates:
 Upper Left  (    0.0,    0.0)
 Lower Left  (    0.0,  896.0)
@@ -288,11 +288,11 @@ Center      (  304.0,  448.0)
 Band 1 Block=608x1 Type=Int32, ColorInterp=Undefined
   Unit Type: percent
   Metadata:
-    comment=data value meaning: 0 -- Open Water, 110 -- missing/not calculated, 120 -- Land
+    NETCDF_VARNAME=SI_12km_NH_ICECON_DAY
     coordinates=lon lat
     long_name=Sea ice concentration daily average
-    NETCDF_VARNAME=SI_12km_NH_ICECON_DAY
-    units=percent</code></pre>
+    units=percent
+    comment=data value meaning: 0 -- Open Water, 110 -- missing/not calculated, 120 -- Land</code></pre>
 </div>
 </div>
 <p>The data needs to be transformed to a standard coordinate reference system (CRS). EPSG:3411 (NSIDC Sea Ice Polar Stereographic North) is commonly used for Northern Hemisphere sea ice data. The <code>gdal_utils()</code> function warps the data to this CRS and saves it to a temporary VRT (Virtual Raster) file. VRT files are useful because they act as a pointer to the original data without duplicating it, and allow for on-the-fly transformations.</p>
@@ -304,18 +304,13 @@ Band 1 Block=608x1 Type=Int32, ColorInterp=Undefined
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unlist</span>(sds)[[<span class="dv">30</span>L]],</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  dsn,</span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">options =</span> <span class="fu">c</span>(<span class="st">"-t_srs"</span>, <span class="st">"EPSG:3411"</span>, <span class="st">"-overwrite"</span>)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="dv">1</span>L)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1</code></pre>
-</div>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The <code>rast()</code> function from the <code>terra</code> package is used to read the VRT file and create a <code>SpatRaster</code> object. This object contains the sea ice concentration data, which can be visualized using the <code>plot()</code> function.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">rast</span>(dsn)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">rast</span>(dsn)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
