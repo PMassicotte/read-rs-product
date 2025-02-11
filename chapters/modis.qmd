@@ -8,6 +8,7 @@ library(gdalraster)
 library(stars)
 library(terra)
 library(rnaturalearth)
+library(rnaturalearthdata)
 ```
 
 In these examples, we will use data from: [Earth data](https://oceandata.sci.gsfc.nasa.gov/directdataaccess/). This website provides direct access to ocean color data products from various satellite missions, including MODIS. You can find Level-3 binned and mapped data here.

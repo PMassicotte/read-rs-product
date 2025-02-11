@@ -11,6 +11,8 @@ library(sf)
 library(DBI)
 library(duckdb)
 library(ggplot2)
+library(rnaturalearth)
+library(rnaturalearthdata)
 
 # URL to the wind turbine database
 url <- "/vsizip//vsicurl/https://ftp.cartes.canada.ca/pub/nrcan_rncan/Wind-energy_Energie-eolienne/wind_turbines_database/wind_turbine_database_en.gdb.zip"
@@ -22,7 +24,7 @@ st_layers(url)
 pts <- read_sf(url)
 
 # Load and transform Canada map
-canada <- rnaturalearth::ne_countries(
+canada <- ne_countries(
   scale = "medium",
   returnclass = "sf",
   country = "Canada"
