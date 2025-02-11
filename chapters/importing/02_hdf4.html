@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Philippe Massicotte">
-<meta name="dcterms.date" content="2025-02-11">
 
-<title>R Spatial Cookbook</title>
+<title>2&nbsp; HDF4 format – R Spatial Cookbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,26 +20,61 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./chapters/importing/01_binary_format.html" rel="next">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-974e931fc677b4491de43dc9219a33ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-6726751cc9a417ccb3c7268f693117bd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../chapters/importing/03_he5.html" rel="next">
+<link href="../../chapters/importing/01_binary_format.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-974e931fc677b4491de43dc9219a33ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-6726751cc9a417ccb3c7268f693117bd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -82,7 +115,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">About this book</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/importing/01_binary_format.html">Importing and Exporting Data</a></li><li class="breadcrumb-item"><a href="../../chapters/importing/02_hdf4.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">HDF4 format</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -97,7 +130,7 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">R Spatial Cookbook</a> 
+      <a href="../../">R Spatial Cookbook</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/PMassicotte/r-spatial-cookbook" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
 </div>
@@ -112,7 +145,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">About this book</span></a>
   </div>
 </li>
@@ -127,31 +160,31 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/importing/01_binary_format.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/importing/01_binary_format.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Binary format</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/importing/02_hdf4.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/importing/02_hdf4.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">HDF4 format</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/importing/03_he5.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/importing/03_he5.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">HE5 format</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/importing/04_modis.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/importing/04_modis.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">HDF5 and NetCDF Files from MODIS Ocean Color Data</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/importing/05_vsicurl.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/importing/05_vsicurl.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">GDAL Virtual File Systems</span></span></a>
   </div>
 </li>
@@ -168,7 +201,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/filtering/01_filtering.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/filtering/01_filtering.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Filtering spatial data</span></span></a>
   </div>
 </li>
@@ -176,7 +209,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/references.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Additional Resources</span></a>
   </div>
 </li>
@@ -190,35 +223,31 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#about-this-book" id="toc-about-this-book" class="nav-link active" data-scroll-target="#about-this-book">About this book</a></li>
+  <li><a href="#netcdf-network-common-data-form" id="toc-netcdf-network-common-data-form" class="nav-link active" data-scroll-target="#netcdf-network-common-data-form"><span class="header-section-number">2.1</span> NetCDF (Network Common Data Form)</a>
+  <ul>
+  <li><a href="#open-netcdf-file-using-rast" id="toc-open-netcdf-file-using-rast" class="nav-link" data-scroll-target="#open-netcdf-file-using-rast"><span class="header-section-number">2.1.1</span> Open NetCDF file using <code>rast()</code></a>
+  <ul class="collapse">
+  <li><a href="#open-a-specific-layer-using-lyrs" id="toc-open-a-specific-layer-using-lyrs" class="nav-link" data-scroll-target="#open-a-specific-layer-using-lyrs"><span class="header-section-number">2.1.1.1</span> Open a specific layer using <code>lyrs</code></a></li>
+  <li><a href="#open-a-specific-layer-using-subds" id="toc-open-a-specific-layer-using-subds" class="nav-link" data-scroll-target="#open-a-specific-layer-using-subds"><span class="header-section-number">2.1.1.2</span> Open a specific layer using <code>subds</code></a></li>
+  </ul></li>
+  <li><a href="#plotting" id="toc-plotting" class="nav-link" data-scroll-target="#plotting"><span class="header-section-number">2.1.2</span> Plotting</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/PMassicotte/r-spatial-cookbook/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/importing/01_binary_format.html">Importing and Exporting Data</a></li><li class="breadcrumb-item"><a href="../../chapters/importing/02_hdf4.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">HDF4 format</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">R Spatial Cookbook</h1>
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">HDF4 format</span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Philippe Massicotte </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">February 11, 2025</p>
-    </div>
-  </div>
   
     
   </div>
@@ -228,11 +257,203 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="about-this-book" class="level1 unnumbered">
-<h1 class="unnumbered">About this book</h1>
-<p>This book serves as a personal reference. It is intended to help me remember the techniques for manipulating spatial data in R.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="netcdf-network-common-data-form" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="netcdf-network-common-data-form"><span class="header-section-number">2.1</span> NetCDF (Network Common Data Form)</h2>
+<p>Layers in the file can be listed using the <code>nc_open()</code> function:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>file <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"avhrr-only-v2.20160503.nc"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="open-netcdf-file-using-rast" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="open-netcdf-file-using-rast"><span class="header-section-number">2.1.1</span> Open NetCDF file using <code>rast()</code></h3>
+<p>The <code>terra</code> package provides an alternative method to work with NetCDF files. This creates a <code>SpatRaster</code> object, which is more memory-efficient for large datasets.</p>
+<p>To see which layers are available in the file, use the <code>describe()</code> function. Note the <code>var</code> column in the output:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">describe</span>(file, <span class="at">sds =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 1%">
+<col style="width: 61%">
+<col style="width: 3%">
+<col style="width: 23%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">id</th>
+<th style="text-align: left;">name</th>
+<th style="text-align: left;">var</th>
+<th style="text-align: left;">desc</th>
+<th style="text-align: right;">nrow</th>
+<th style="text-align: right;">ncol</th>
+<th style="text-align: right;">nlyr</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NETCDF:“/media/work/projects/documentation/read_rs_product/data/avhrr-only-v2.20160503.nc”:sst</td>
+<td style="text-align: left;">sst</td>
+<td style="text-align: left;">[1x1x720x1440] sst (16-bit integer)</td>
+<td style="text-align: right;">720</td>
+<td style="text-align: right;">1440</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">NETCDF:“/media/work/projects/documentation/read_rs_product/data/avhrr-only-v2.20160503.nc”:anom</td>
+<td style="text-align: left;">anom</td>
+<td style="text-align: left;">[1x1x720x1440] anom (16-bit integer)</td>
+<td style="text-align: right;">720</td>
+<td style="text-align: right;">1440</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">NETCDF:“/media/work/projects/documentation/read_rs_product/data/avhrr-only-v2.20160503.nc”:err</td>
+<td style="text-align: left;">err</td>
+<td style="text-align: left;">[1x1x720x1440] err (16-bit integer)</td>
+<td style="text-align: right;">720</td>
+<td style="text-align: right;">1440</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">NETCDF:“/media/work/projects/documentation/read_rs_product/data/avhrr-only-v2.20160503.nc”:ice</td>
+<td style="text-align: left;">ice</td>
+<td style="text-align: left;">[1x1x720x1440] ice (16-bit integer)</td>
+<td style="text-align: right;">720</td>
+<td style="text-align: right;">1440</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>This file contains four layers: <code>sst</code>, <code>anom</code>, <code>err</code>, and <code>ice</code>. They can be opened using the <code>rast()</code> function using the <code>lyrs</code> or <code>subds</code> argument.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>TODO: Explain the difference between <code>lyrs</code> and <code>subds</code>.</p>
+</div>
+</div>
+<section id="open-a-specific-layer-using-lyrs" class="level4" data-number="2.1.1.1">
+<h4 data-number="2.1.1.1" class="anchored" data-anchor-id="open-a-specific-layer-using-lyrs"><span class="header-section-number">2.1.1.1</span> Open a specific layer using <code>lyrs</code></h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To open the sst layer</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>sst_layer <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">paste0</span>(<span class="st">"NETCDF:"</span>, file, <span class="st">":sst"</span>))</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># To open the anom layer</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>anom_layer <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">paste0</span>(<span class="st">"NETCDF:"</span>, file, <span class="st">":anom"</span>))</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># To open the err layer</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>err_layer <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">paste0</span>(<span class="st">"NETCDF:"</span>, file, <span class="st">":err"</span>))</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># To open the ice layer</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>ice_layer <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">paste0</span>(<span class="st">"NETCDF:"</span>, file, <span class="st">":ice"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="open-a-specific-layer-using-subds" class="level4" data-number="2.1.1.2">
+<h4 data-number="2.1.1.2" class="anchored" data-anchor-id="open-a-specific-layer-using-subds"><span class="header-section-number">2.1.1.2</span> Open a specific layer using <code>subds</code></h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To open the sst layer</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>sst_layer <span class="ot">&lt;-</span> <span class="fu">rast</span>(file, <span class="at">subds =</span> <span class="st">"sst"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># To open the anom layer</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>anom_layer <span class="ot">&lt;-</span> <span class="fu">rast</span>(file, <span class="at">subds =</span> <span class="st">"anom"</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># To open the err layer</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>err_layer <span class="ot">&lt;-</span> <span class="fu">rast</span>(file, <span class="at">subds =</span> <span class="st">"err"</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Open the ice layer</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>ice_layer <span class="ot">&lt;-</span> <span class="fu">rast</span>(file, <span class="at">subds =</span> <span class="st">"ice"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="plotting" class="level3" data-number="2.1.2">
+<h3 data-number="2.1.2" class="anchored" data-anchor-id="plotting"><span class="header-section-number">2.1.2</span> Plotting</h3>
+<p>We can visualize the layers using the <code>plot()</code> function:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>L, <span class="dv">2</span>L))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sst_layer, <span class="at">main =</span> <span class="st">"SST"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(anom_layer, <span class="at">main =</span> <span class="st">"Anomaly"</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(err_layer, <span class="at">main =</span> <span class="st">"Error"</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ice_layer, <span class="at">main =</span> <span class="st">"Ice"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02_hdf4_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>It looks like the raster is rotated. We can rotate it back with the <code>rotate()</code> function:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>sst_layer <span class="ot">&lt;-</span> <span class="fu">rotate</span>(sst_layer)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sst_layer)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02_hdf4_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Converting to a data frame can be useful for certain types of analysis or visualization, but be cautious with large datasets as this can be memory-intensive.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(sst_layer)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">sst_zlev=0</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">-1.7</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">-1.7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">-1.7</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">-1.7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">-1.7</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">-1.7</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -655,10 +876,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="../../chapters/importing/01_binary_format.html" class="pagination-link" aria-label="Binary format">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Binary format</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./chapters/importing/01_binary_format.html" class="pagination-link" aria-label="Binary format">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Binary format</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../chapters/importing/03_he5.html" class="pagination-link" aria-label="HE5 format">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">HE5 format</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

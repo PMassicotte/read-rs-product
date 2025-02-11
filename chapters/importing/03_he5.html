@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Philippe Massicotte">
-<meta name="dcterms.date" content="2025-02-11">
 
-<title>R Spatial Cookbook</title>
+<title>3&nbsp; HE5 format – R Spatial Cookbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,26 +20,61 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./chapters/importing/01_binary_format.html" rel="next">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-974e931fc677b4491de43dc9219a33ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-6726751cc9a417ccb3c7268f693117bd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../chapters/importing/04_modis.html" rel="next">
+<link href="../../chapters/importing/02_hdf4.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-974e931fc677b4491de43dc9219a33ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-6726751cc9a417ccb3c7268f693117bd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -82,7 +115,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">About this book</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/importing/01_binary_format.html">Importing and Exporting Data</a></li><li class="breadcrumb-item"><a href="../../chapters/importing/03_he5.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">HE5 format</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -97,7 +130,7 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">R Spatial Cookbook</a> 
+      <a href="../../">R Spatial Cookbook</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/PMassicotte/r-spatial-cookbook" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
 </div>
@@ -112,7 +145,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">About this book</span></a>
   </div>
 </li>
@@ -127,31 +160,31 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/importing/01_binary_format.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/importing/01_binary_format.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Binary format</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/importing/02_hdf4.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/importing/02_hdf4.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">HDF4 format</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/importing/03_he5.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/importing/03_he5.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">HE5 format</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/importing/04_modis.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/importing/04_modis.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">HDF5 and NetCDF Files from MODIS Ocean Color Data</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/importing/05_vsicurl.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/importing/05_vsicurl.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">GDAL Virtual File Systems</span></span></a>
   </div>
 </li>
@@ -168,7 +201,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/filtering/01_filtering.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/filtering/01_filtering.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Filtering spatial data</span></span></a>
   </div>
 </li>
@@ -176,7 +209,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/references.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Additional Resources</span></a>
   </div>
 </li>
@@ -190,35 +223,23 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#about-this-book" id="toc-about-this-book" class="nav-link active" data-scroll-target="#about-this-book">About this book</a></li>
+  <li><a href="#using-describe-to-list-available-layers" id="toc-using-describe-to-list-available-layers" class="nav-link active" data-scroll-target="#using-describe-to-list-available-layers"><span class="header-section-number">3.1</span> Using <code>describe()</code> to List available layers</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/PMassicotte/r-spatial-cookbook/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/importing/01_binary_format.html">Importing and Exporting Data</a></li><li class="breadcrumb-item"><a href="../../chapters/importing/03_he5.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">HE5 format</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">R Spatial Cookbook</h1>
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">HE5 format</span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Philippe Massicotte </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">February 11, 2025</p>
-    </div>
-  </div>
   
     
   </div>
@@ -228,9 +249,221 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="about-this-book" class="level1 unnumbered">
-<h1 class="unnumbered">About this book</h1>
-<p>This book serves as a personal reference. It is intended to help me remember the techniques for manipulating spatial data in R.</p>
+<p>This section demonstrates how to access and visualize sea ice concentration data stored in HE5 files, focusing on data from the AMSR-E/AMSR2 Unified L3 Daily 12.5 km dataset. We’ll use R along with the <code>gdalraster</code>, <code>stars</code>, <code>terra</code>, and <code>sf</code> packages.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Disclaimer
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The code below is largely based/copied on the work of <a href="https://gist.github.com/mdsumner/08265bac3faf1e4325e2d5a39a5f66bf">mdsumner</a>.</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gdalraster)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stars)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>file <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"AMSR_U2_L3_SeaIce12km_B04_20140314.he5"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The code leverages the NetCDF interface to access subdatasets within the HE5 file. This allows us to access the geolocation arrays, which is crucial for proper spatial referencing.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>sub <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"NetCDF:"</span>, file, <span class="st">":"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>sds <span class="ot">&lt;-</span> <span class="fu">gdal_subdatasets</span>(sub)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>sf<span class="sc">::</span><span class="fu">gdal_utils</span>(<span class="st">"info"</span>, <span class="fu">unlist</span>(sds)[[<span class="dv">30</span>L]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Driver: netCDF/Network Common Data Format
+Files: /media/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5
+Size is 608, 896
+Metadata:
+  /HDFEOS INFORMATION/NC_GLOBAL#HDFEOSVersion=HDFEOS_5.1.15
+  /HDFEOS/GRIDS/NpPolarGrid12km/Data Fields/SI_12km_NH_ICECON_DAY#comment=data value meaning: 0 -- Open Water, 110 -- missing/not calculated, 120 -- Land
+  /HDFEOS/GRIDS/NpPolarGrid12km/Data Fields/SI_12km_NH_ICECON_DAY#coordinates=lon lat
+  /HDFEOS/GRIDS/NpPolarGrid12km/Data Fields/SI_12km_NH_ICECON_DAY#long_name=Sea ice concentration daily average
+  /HDFEOS/GRIDS/NpPolarGrid12km/Data Fields/SI_12km_NH_ICECON_DAY#units=percent
+  NC_GLOBAL#Conventions=CF-1.6
+  NC_GLOBAL#history=This version of the Sea Ice processing code contains updates provided by the science team on September 16, 2019. For details on these updates, see the release notes provided in the DAP.
+  NC_GLOBAL#institution=NASA's AMSR Science Investigator-led Processing System (SIPS)
+  NC_GLOBAL#references=Please cite these data as: Markus, T., J. C. Comiso, and W. N. Meier. 2018. AMSR-E/AMSR2 Unified L3 Daily 12.5 km Brightness Temperatures, Sea Ice Concentration, Motion &amp; Snow Depth Polar Grids, Version 1. [Indicate subset used]. Boulder, Colorado USA. NASA National Snow and Ice Data Center Distributed Active Archive Center. doi: https://doi.org/10.5067/RA1MIJOYPK3P.
+  NC_GLOBAL#source=satellite observation
+  NC_GLOBAL#title=AMSR-E/AMSR2 Unified L3 Daily 12.5 km Brightness Temperatures, Sea Ice Concentration, Motion &amp; Snow Depth Polar Grids
+Geolocation:
+  GEOREFERENCING_CONVENTION=PIXEL_CENTER
+  LINE_OFFSET=0
+  LINE_STEP=1
+  PIXEL_OFFSET=0
+  PIXEL_STEP=1
+  SRS=GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AXIS["Latitude",NORTH],AXIS["Longitude",EAST],AUTHORITY["EPSG","4326"]]
+  X_BAND=1
+  X_DATASET=NETCDF:"/media/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5":/HDFEOS/GRIDS/NpPolarGrid12km/lon
+  Y_BAND=1
+  Y_DATASET=NETCDF:"/media/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5":/HDFEOS/GRIDS/NpPolarGrid12km/lat
+Corner Coordinates:
+Upper Left  (    0.0,    0.0)
+Lower Left  (    0.0,  896.0)
+Upper Right (  608.0,    0.0)
+Lower Right (  608.0,  896.0)
+Center      (  304.0,  448.0)
+Band 1 Block=608x1 Type=Int32, ColorInterp=Undefined
+  Unit Type: percent
+  Metadata:
+    comment=data value meaning: 0 -- Open Water, 110 -- missing/not calculated, 120 -- Land
+    coordinates=lon lat
+    long_name=Sea ice concentration daily average
+    NETCDF_VARNAME=SI_12km_NH_ICECON_DAY
+    units=percent</code></pre>
+</div>
+</div>
+<p>The data needs to be transformed to a standard coordinate reference system (CRS). EPSG:3411 (NSIDC Sea Ice Polar Stereographic North) is commonly used for Northern Hemisphere sea ice data. The <code>gdal_utils()</code> function warps the data to this CRS and saves it to a temporary VRT (Virtual Raster) file. VRT files are useful because they act as a pointer to the original data without duplicating it, and allow for on-the-fly transformations.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dsn <span class="ot">&lt;-</span> <span class="st">"/vsimem/temp.vrt"</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>sf<span class="sc">::</span><span class="fu">gdal_utils</span>(</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"warp"</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unlist</span>(sds)[[<span class="dv">30</span>L]],</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  dsn,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">options =</span> <span class="fu">c</span>(<span class="st">"-t_srs"</span>, <span class="st">"EPSG:3411"</span>, <span class="st">"-overwrite"</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The <code>rast()</code> function from the <code>terra</code> package is used to read the VRT file and create a <code>SpatRaster</code> object. This object contains the sea ice concentration data, which can be visualized using the <code>plot()</code> function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">rast</span>(dsn)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03_he5_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="using-describe-to-list-available-layers" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="using-describe-to-list-available-layers"><span class="header-section-number">3.1</span> Using <code>describe()</code> to List available layers</h2>
+<p>Simpler, can read the data directly from the HE5 file.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>var_names <span class="ot">&lt;-</span> <span class="fu">describe</span>(file, <span class="at">sds =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(var_names)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 0%">
+<col style="width: 49%">
+<col style="width: 18%">
+<col style="width: 26%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 1%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">id</th>
+<th style="text-align: left;">name</th>
+<th style="text-align: left;">var</th>
+<th style="text-align: left;">desc</th>
+<th style="text-align: right;">nrow</th>
+<th style="text-align: right;">ncol</th>
+<th style="text-align: right;">nlyr</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">HDF5:“/media/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5”://HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_ASC</td>
+<td style="text-align: left;">//HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_ASC</td>
+<td style="text-align: left;">[896x608] //HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_ASC (32-bit integer)</td>
+<td style="text-align: right;">896</td>
+<td style="text-align: right;">608</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">HDF5:“/media/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5”://HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_DAY</td>
+<td style="text-align: left;">//HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_DAY</td>
+<td style="text-align: left;">[896x608] //HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_DAY (32-bit integer)</td>
+<td style="text-align: right;">896</td>
+<td style="text-align: right;">608</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">HDF5:“/media/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5”://HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_DSC</td>
+<td style="text-align: left;">//HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_DSC</td>
+<td style="text-align: left;">[896x608] //HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_DSC (32-bit integer)</td>
+<td style="text-align: right;">896</td>
+<td style="text-align: right;">608</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">HDF5:“/media/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5”://HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_ASC</td>
+<td style="text-align: left;">//HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_ASC</td>
+<td style="text-align: left;">[896x608] //HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_ASC (32-bit integer)</td>
+<td style="text-align: right;">896</td>
+<td style="text-align: right;">608</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">HDF5:“/media/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5”://HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_DAY</td>
+<td style="text-align: left;">//HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_DAY</td>
+<td style="text-align: left;">[896x608] //HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_DAY (32-bit integer)</td>
+<td style="text-align: right;">896</td>
+<td style="text-align: right;">608</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">HDF5:“/media/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5”://HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_DSC</td>
+<td style="text-align: left;">//HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_DSC</td>
+<td style="text-align: left;">[896x608] //HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_DSC (32-bit integer)</td>
+<td style="text-align: right;">896</td>
+<td style="text-align: right;">608</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>layer <span class="ot">&lt;-</span> var_names[[<span class="st">"var"</span>]][<span class="fu">grepl</span>(<span class="st">"SI_12km_NH_ICECON_DAY"</span>, var_names[[<span class="st">"var"</span>]], <span class="at">fixed =</span> <span class="cn">TRUE</span>)]</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>layer</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "//HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_ICECON_DAY"</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>ice_layer <span class="ot">&lt;-</span> <span class="fu">rast</span>(file, <span class="at">subds =</span> layer)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Why are the dimensions different?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 897 608   1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(ice_layer)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 896 608   1</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ice_layer)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03_he5_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
 
 
 </section>
@@ -655,10 +888,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="../../chapters/importing/02_hdf4.html" class="pagination-link" aria-label="HDF4 format">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">HDF4 format</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./chapters/importing/01_binary_format.html" class="pagination-link" aria-label="Binary format">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Binary format</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../chapters/importing/04_modis.html" class="pagination-link" aria-label="HDF5 and NetCDF Files from MODIS Ocean Color Data">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">HDF5 and NetCDF Files from MODIS Ocean Color Data</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
