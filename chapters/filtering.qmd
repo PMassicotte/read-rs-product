@@ -41,7 +41,7 @@ To avoid loading the entire dataset into memory, we can filter the data using a 
 
 ```{r}
 # Read and transform the area of interest
-area <- read_sf(fs::path("data", "area.geojson")) |>
+area <- read_sf(here::here("data", "area.geojson")) |>
   st_transform(crs = st_crs(pts))
 
 # Plot the map with the area of interest

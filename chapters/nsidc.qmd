@@ -18,7 +18,7 @@ Version 1 of the [NSIDC-0081 sea ice concentration dataset](https://nsidc.org/da
 Based on the [documentation](https://nsidc.org/sites/default/files/nsidc-0081-v001-userguide_1.pdf), the binary files can be read using the following code:
 
 ```{r}
-sic <- readBin(fs::path("data", "nsidc", "nt_20171002_f17_v1.1_n.bin"),
+sic <- readBin(here::here("data", "nsidc", "nt_20171002_f17_v1.1_n.bin"),
   what = "integer",
   n = 304L * 448L,
   size = 1L,
@@ -28,7 +28,7 @@ sic <- readBin(fs::path("data", "nsidc", "nt_20171002_f17_v1.1_n.bin"),
 
 lat <-
   readBin(
-    fs::path("data", "nsidc", "psn25lats_v3.dat"),
+    here::here("data", "nsidc", "psn25lats_v3.dat"),
     what = "integer",
     n = 304L * 448L,
     size = 4L,
@@ -37,7 +37,7 @@ lat <-
 
 lon <-
   readBin(
-    fs::path("data", "nsidc", "psn25lons_v3.dat"),
+    here::here("data", "nsidc", "psn25lons_v3.dat"),
     what = "integer",
     n = 304L * 448L,
     size = 4L,

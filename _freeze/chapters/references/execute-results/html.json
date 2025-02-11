@@ -1,0 +1,15 @@
+{
+  "hash": "3b64f2b096adc261576aa7756cf130bf",
+  "result": {
+    "engine": "knitr",
+    "markdown": "# Additional Resources {.unnumbered}\n\n## Useful Links {.unnumbered}\n\n- [HDF EOS Tools and Information Center](http://hdfeos.org/software/r.php)\n- [AMSR-E/AMSR2 Unified L3 Daily 12.5 km Brightness Temperatures, Sea Ice Concentration, Motion & Snow Depth Polar Grids, Version 1](https://nsidc.org/sites/default/files/au_si12-v001-userguide_1.pdf)\n\n## Session Info {.unnumbered}\n\n<details>\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nsessioninfo::session_info()\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n─ Session info ───────────────────────────────────────────────────────────────\n setting  value\n version  R version 4.4.2 (2024-10-31)\n os       Linux Mint 22\n system   x86_64, linux-gnu\n ui       X11\n language en_CA:en\n collate  en_CA.UTF-8\n ctype    en_CA.UTF-8\n tz       America/Montreal\n date     2025-02-11\n pandoc   3.1.3 @ /usr/bin/ (via rmarkdown)\n quarto   1.6.39 @ /usr/local/bin/quarto\n\n─ Packages ───────────────────────────────────────────────────────────────────\n ! package     * version date (UTC) lib source\n P BiocManager   1.30.25 2024-08-28 [?] RSPM\n P cli           3.6.3   2024-06-21 [?] CRAN (R 4.4.1)\n P digest        0.6.37  2024-08-19 [?] RSPM (R 4.4.1)\n P evaluate      1.0.3   2025-01-10 [?] RSPM\n P fastmap       1.2.0   2024-05-15 [?] RSPM (R 4.4.1)\n P htmltools     0.5.8.1 2024-04-04 [?] RSPM (R 4.4.1)\n P jsonlite      1.8.9   2024-09-20 [?] RSPM\n P knitr         1.49    2024-11-08 [?] RSPM (R 4.4.2)\n   renv          1.1.1   2025-02-07 [1] RSPM (R 4.4.0)\n P rlang         1.1.5   2025-01-17 [?] RSPM\n P rmarkdown     2.29    2024-11-04 [?] RSPM (R 4.4.2)\n P sessioninfo   1.2.3   2025-02-05 [?] RSPM\n P xfun          0.50    2025-01-07 [?] RSPM\n P yaml          2.3.10  2024-07-26 [?] RSPM (R 4.4.1)\n\n [1] /media/LaCie16TB/work/projects/documentation/read_rs_product/renv/library/linux-linuxmint-noble/R-4.4/x86_64-pc-linux-gnu\n [2] /home/filoche/.cache/R/renv/sandbox/linux-linuxmint-noble/R-4.4/x86_64-pc-linux-gnu/9a444a72\n\n P ── Loaded and on-disk path mismatch.\n\n──────────────────────────────────────────────────────────────────────────────\n```\n\n\n:::\n:::\n\n\n\n\n</details>\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

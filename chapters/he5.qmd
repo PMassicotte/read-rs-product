@@ -18,7 +18,7 @@ library(terra)
 ```
 
 ```{r}
-file <- fs::path(
+file <- here::here(
   "data",
   "AMSR_U2_L3_SeaIce12km_B04_20140314.he5"
 )

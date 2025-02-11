@@ -10,13 +10,13 @@ book:
   date: today
   chapters:
     - index.qmd
-    - modis.qmd
-    - hdf4.qmd
-    - nsidc.qmd
-    - he5.qmd
-    - vsicurl.qmd
-    - filtering.qmd
-    - references.qmd
+    - chapters/modis.qmd
+    - chapters/hdf4.qmd
+    - chapters/nsidc.qmd
+    - chapters/he5.qmd
+    - chapters/vsicurl.qmd
+    - chapters/filtering.qmd
+    - chapters/references.qmd
 
 format:
   html:
