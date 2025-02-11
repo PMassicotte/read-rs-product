@@ -3,9 +3,11 @@ project:
   output-dir: docs
 
 book:
+  repo-url: https://github.com/PMassicotte/r-spatial-cookbook
+  repo-actions: [issue]
   title: "R Spatial Cookbook"
   author: "Philippe Massicotte"
-  date: "today"
+  date: today
   chapters:
     - index.qmd
     - modis.qmd
