@@ -1,3 +1,3 @@
-# Preface {.unnumbered}
+# About this book {.unnumbered}
 
 This book serves as a personal reference. It is intended to help me remember the techniques for manipulating spatial data in R.

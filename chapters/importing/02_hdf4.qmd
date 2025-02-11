@@ -1,0 +1,89 @@
+# HDF4 format
+
+```{r}
+library(terra)
+```
+
+## NetCDF (Network Common Data Form)
+
+Layers in the file can be listed using the `nc_open()` function:
+
+```{r}
+file <- here::here("data", "avhrr-only-v2.20160503.nc")
+```
+
+### Open NetCDF file using `rast()`
+
+The `terra` package provides an alternative method to work with NetCDF files. This creates a `SpatRaster` object, which is more memory-efficient for large datasets.
+
+To see which layers are available in the file, use the `describe()` function. Note the `var` column in the output:
+
+```{r}
+describe(file, sds = TRUE)
+```
+
+This file contains four layers: `sst`, `anom`, `err`, and `ice`. They can be opened using the `rast()` function using the `lyrs` or `subds` argument.
+
+::: {.callout-note}
+TODO: Explain the difference between `lyrs` and `subds`.
+:::
+
+#### Open a specific layer using `lyrs`
+
+```{r}
+# To open the sst layer
+sst_layer <- rast(paste0("NETCDF:", file, ":sst"))
+
+# To open the anom layer
+anom_layer <- rast(paste0("NETCDF:", file, ":anom"))
+
+# To open the err layer
+err_layer <- rast(paste0("NETCDF:", file, ":err"))
+
+# To open the ice layer
+ice_layer <- rast(paste0("NETCDF:", file, ":ice"))
+```
+
+#### Open a specific layer using `subds`
+
+```{r}
+# To open the sst layer
+sst_layer <- rast(file, subds = "sst")
+
+# To open the anom layer
+anom_layer <- rast(file, subds = "anom")
+
+# To open the err layer
+err_layer <- rast(file, subds = "err")
+
+# Open the ice layer
+ice_layer <- rast(file, subds = "ice")
+```
+
+### Plotting
+
+We can visualize the layers using the `plot()` function:
+
+```{r}
+par(mfrow = c(2L, 2L))
+plot(sst_layer, main = "SST")
+plot(anom_layer, main = "Anomaly")
+plot(err_layer, main = "Error")
+plot(ice_layer, main = "Ice")
+```
+
+It looks like the raster is rotated. We can rotate it back with the `rotate()` function:
+
+```{r}
+sst_layer <- rotate(sst_layer)
+
+plot(sst_layer)
+```
+
+Converting to a data frame can be useful for certain types of analysis or visualization, but be cautious with large datasets as this can be memory-intensive.
+
+```{r}
+df <- as.data.frame(sst_layer)
+
+head(df)
+```

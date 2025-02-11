@@ -10,12 +10,16 @@ book:
   date: today
   chapters:
     - index.qmd
-    - chapters/modis.qmd
-    - chapters/hdf4.qmd
-    - chapters/nsidc.qmd
-    - chapters/he5.qmd
-    - chapters/vsicurl.qmd
-    - chapters/filtering.qmd
+    - part: "Importing and Exporting Data"
+      chapters:
+        - chapters/importing/01_binary_format.qmd
+        - chapters/importing/02_hdf4.qmd
+        - chapters/importing/03_he5.qmd
+        - chapters/importing/04_modis.qmd
+        - chapters/importing/05_vsicurl.qmd
+    - part: "Filtering"
+      chapters:
+        - chapters/filtering/01_filtering.qmd
     - chapters/references.qmd
 
 format:
@@ -25,6 +29,7 @@ format:
     fig-align: center
     highlight-style: a11y
     df-print: kable
+    toc: true
     toc-depth: 4
     toc-expand: 4
     theme:
@@ -35,6 +40,7 @@ execute:
   warning: false
   message: false
   freeze: auto
+
 knitr:
   opts_chunk:
     dev: ragg_png

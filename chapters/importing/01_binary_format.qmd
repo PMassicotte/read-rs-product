@@ -1,11 +1,11 @@
-# NSIDC binary data
+# Binary format
 
 ```{r}
 #| label: setup
 library(terra)
 ```
 
-## Binary data
+## NSIDC binary data
 
 Binary data is a format where information is stored in a sequence of bytes, representing data in its most basic form without any text-based structure. This format is efficient for storage and quick to read programmatically, but it's not human-readable without proper interpretation. In the case of scientific datasets like sea ice concentration, binary formats were often used to minimize file size and optimize data processing speed.
 
@@ -18,7 +18,8 @@ Version 1 of the [NSIDC-0081 sea ice concentration dataset](https://nsidc.org/da
 Based on the [documentation](https://nsidc.org/sites/default/files/nsidc-0081-v001-userguide_1.pdf), the binary files can be read using the following code:
 
 ```{r}
-sic <- readBin(here::here("data", "nsidc", "nt_20171002_f17_v1.1_n.bin"),
+sic <- readBin(
+  here::here("data", "nsidc", "nt_20171002_f17_v1.1_n.bin"),
   what = "integer",
   n = 304L * 448L,
   size = 1L,
@@ -26,23 +27,21 @@ sic <- readBin(here::here("data", "nsidc", "nt_20171002_f17_v1.1_n.bin"),
 )
 
 
-lat <-
-  readBin(
-    here::here("data", "nsidc", "psn25lats_v3.dat"),
-    what = "integer",
-    n = 304L * 448L,
-    size = 4L,
-    signed = TRUE
-  )
+lat <- readBin(
+  here::here("data", "nsidc", "psn25lats_v3.dat"),
+  what = "integer",
+  n = 304L * 448L,
+  size = 4L,
+  signed = TRUE
+)
 
-lon <-
-  readBin(
-    here::here("data", "nsidc", "psn25lons_v3.dat"),
-    what = "integer",
-    n = 304L * 448L,
-    size = 4L,
-    signed = TRUE
-  )
+lon <- readBin(
+  here::here("data", "nsidc", "psn25lons_v3.dat"),
+  what = "integer",
+  n = 304L * 448L,
+  size = 4L,
+  signed = TRUE
+)
 ```
 
 We can construct a data frame from the latitude, longitude, and sea ice concentration data:
@@ -70,7 +69,7 @@ According to the documentation:
 | 254        | Land                                                                                                                                             |
 | 255        | Missing data                                                                                                                                     |
 
-### Turning the data into a raster
+### Conversion to raster
 
 We can turn the data into a raster object using the `terra` package. The sea ice concentration values are stored in a 448x304 matrix, which we can convert to a raster object.
 

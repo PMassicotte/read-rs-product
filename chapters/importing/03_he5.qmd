@@ -1,4 +1,4 @@
-# Working with HE5 Files for Sea Ice Data
+# HE5 format
 
 This section demonstrates how to access and visualize sea ice concentration data stored in HE5 files, focusing on data from the AMSR-E/AMSR2 Unified L3 Daily 12.5 km dataset. We'll use R along with the `gdalraster`, `stars`, `terra`, and `sf` packages.
 
@@ -18,10 +18,7 @@ library(terra)
 ```
 
 ```{r}
-file <- here::here(
-  "data",
-  "AMSR_U2_L3_SeaIce12km_B04_20140314.he5"
-)
+file <- here::here("data", "AMSR_U2_L3_SeaIce12km_B04_20140314.he5")
 ```
 
 The code leverages the NetCDF interface to access subdatasets within the HE5 file. This allows us to access the geolocation arrays, which is crucial for proper spatial referencing.
@@ -52,4 +49,33 @@ The `rast()` function from the `terra` package is used to read the VRT file and 
 r <- rast(dsn)
 
 plot(r)
+```
+
+## Using `describe()` to List available layers
+
+Simpler, can read the data directly from the HE5 file.
+
+```{r}
+var_names <- describe(file, sds = TRUE)
+
+head(var_names)
+
+layer <- var_names[["var"]][grepl("SI_12km_NH_ICECON_DAY", var_names[["var"]], fixed = TRUE)]
+
+layer
+```
+
+```{r}
+ice_layer <- rast(file, subds = layer)
+```
+
+Why are the dimensions different?
+
+```{r}
+dim(r)
+dim(ice_layer)
+```
+
+```{r}
+plot(ice_layer)
 ```
