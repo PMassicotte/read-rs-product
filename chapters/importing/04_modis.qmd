@@ -1,6 +1,12 @@
 # HDF5 and NetCDF Files from MODIS Ocean Color Data
 
 ```{r}
+#| label: crop_hook
+#| echo: false
+knitr::knit_hooks[["set"]](crop = knitr::hook_pdfcrop)
+```
+
+```{r}
 #| label: setup
 
 library(rhdf5)
@@ -85,6 +91,7 @@ r
 This shows the raster's metadata, such as the number of layers, the number of rows and columns, the resolution, and the extent.
 
 ```{r}
+#| crop: true
 wm <- ne_countries(scale = "medium", returnclass = "sf")
 
 plot(wm[["geometry"]], col = "lightgray", lwd = 0.5)
@@ -95,6 +102,7 @@ plot(r, add = TRUE, col = terrain.colors(10L))
 
 ```{r}
 #| label: hdf4
+#| crop: true
 
 filename <- here::here("data", "MYD08_D3.A2003181.061.2018007232726.hdf")
 

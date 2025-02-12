@@ -1,5 +1,11 @@
 # HE5 format
 
+```{r}
+#| label: crop_hook
+#| echo: false
+knitr::knit_hooks[["set"]](crop = knitr::hook_pdfcrop)
+```
+
 This section demonstrates how to access and visualize sea ice concentration data stored in HE5 files, focusing on data from the AMSR-E/AMSR2 Unified L3 Daily 12.5 km dataset. We'll use R along with the `gdalraster`, `stars`, `terra`, and `sf` packages.
 
 ::: {.callout-note}
@@ -46,14 +52,28 @@ sf::gdal_utils(
 The `rast()` function from the `terra` package is used to read the VRT file and create a `SpatRaster` object. This object contains the sea ice concentration data, which can be visualized using the `plot()` function.
 
 ```{r}
+#| crop: true
 r <- rast(dsn)
+r
 
 plot(r)
 ```
 
-## Using `describe()` to List available layers
+## Using `describe()` to list available layers
 
-Simpler, can read the data directly from the HE5 file.
+::: {.callout-warning}
+
+Reading the data directly from the HE5 file with `terra` might not work correctly. You may get the message _can not find the spatial extent_. If this happens, you can use the `gdalraster` package to read the data and then convert it to a `SpatRaster` object or use recent versions of [gdal](https://gdal.org/) and [proj](https://proj.org/) libraries.
+
+:::
+
+The installed version of `gdal` can be checked with the following command:
+
+```{bash}
+gdalinfo --version
+```
+
+If you have a recent version of `gdal`, you read the data directly from the HE5 file with the `terra` package.
 
 ```{r}
 var_names <- describe(file, sds = TRUE)
@@ -63,10 +83,10 @@ head(var_names)
 layer <- var_names[["var"]][grepl("SI_12km_NH_ICECON_DAY", var_names[["var"]], fixed = TRUE)]
 
 layer
-```
 
-```{r}
 ice_layer <- rast(file, subds = layer)
+
+ice_layer
 ```
 
 Why are the dimensions different?
@@ -77,5 +97,6 @@ dim(ice_layer)
 ```
 
 ```{r}
+#| crop: true
 plot(ice_layer)
 ```

@@ -1,0 +1,39 @@
+# Plotting spatial data
+
+```{r}
+#| label: setup
+library(terra)
+library(ggplot2)
+library(tidyterra)
+```
+
+```{r}
+#| label: crop_hook
+#| echo: false
+knitr::knit_hooks[["set"]](crop = knitr::hook_pdfcrop)
+```
+
+```{r}
+file <- here::here("data", "avhrr-only-v2.20160503.nc")
+```
+
+```{r}
+sst_layer <- rast(file, subds = "sst") |>
+  rotate()
+
+sst_layer
+```
+
+```{r}
+#| crop: true
+plot(sst_layer)
+```
+
+```{r}
+#| crop: true
+ggplot() +
+  geom_spatraster(data = sst_layer) +
+  scale_fill_viridis_c(na.value = "transparent") +
+  labs(fill = "Sea Surface\nTemperature (°C)") +
+  coord_sf(crs = "+proj=robin")
+```

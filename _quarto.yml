@@ -10,7 +10,7 @@ book:
   date: today
   chapters:
     - index.qmd
-    - part: "Importing and Exporting Data"
+    - part: "Importing"
       chapters:
         - chapters/importing/01_binary_format.qmd
         - chapters/importing/02_hdf4.qmd
@@ -20,6 +20,9 @@ book:
     - part: "Filtering"
       chapters:
         - chapters/filtering/01_filtering.qmd
+    - part: "Plotting"
+      chapters:
+        - chapters/plotting/01_basics.qmd
     - chapters/references.qmd
 
 format:

@@ -1,5 +1,21 @@
 # Filtering spatial data
 
+```{r}
+#| label: crop_hook
+#| echo: false
+knitr::knit_hooks[["set"]](crop = knitr::hook_pdfcrop)
+```
+
+```{r}
+#| label: setup
+library(sf)
+library(DBI)
+library(duckdb)
+library(ggplot2)
+library(rnaturalearth)
+library(rnaturalearthdata)
+```
+
 In this tutorial, we will explore different methods to filter spatial data using the `sf` package in R. We will use the [Canadian Wind Turbine Database](https://open.canada.ca/data/en/dataset/79fdad93-9025-49ad-ba16-c26d718cc070) as our example dataset.
 
 ## Filtering spatial data with `sf`
@@ -7,12 +23,7 @@ In this tutorial, we will explore different methods to filter spatial data using
 The Canadian Wind Turbine Database contains the geographic location and key technology details for wind turbines installed in Canada.
 
 ```{r}
-library(sf)
-library(DBI)
-library(duckdb)
-library(ggplot2)
-library(rnaturalearth)
-library(rnaturalearthdata)
+#| crop: true
 
 # URL to the wind turbine database
 url <- "/vsizip//vsicurl/https://ftp.cartes.canada.ca/pub/nrcan_rncan/Wind-energy_Energie-eolienne/wind_turbines_database/wind_turbine_database_en.gdb.zip"
@@ -42,6 +53,8 @@ ggplot() +
 To avoid loading the entire dataset into memory, we can filter the data using a bounding box. This is particularly useful when working with large datasets. We can leverage the `wkt_filter` argument to filter spatial data and reduce the amount of data loaded into memory.
 
 ```{r}
+#| crop: true
+
 # Read and transform the area of interest
 area <- read_sf(here::here("data", "area.geojson")) |>
   st_transform(crs = st_crs(pts))
@@ -56,6 +69,8 @@ ggplot() +
 Instead of loading the entire dataset into memory, we can filter the data using a bounding box.
 
 ```{r}
+#| crop: true
+
 # Convert the area geometry to WKT
 wkt <- area |>
   st_geometry() |>
@@ -96,6 +111,7 @@ st_layers(url)
 We can use `wind_turbine` as the layer name in the custom query.
 
 ```{r}
+#| crop: true
 
 # Read the filtered dataset with a custom query
 high_capacity <- read_sf(

@@ -1,0 +1,17 @@
+{
+  "hash": "e8378b64d04e5df4a3f3eceeb824dd5b",
+  "result": {
+    "engine": "knitr",
+    "markdown": "# Plotting spatial data\n\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(terra)\nlibrary(ggplot2)\nlibrary(tidyterra)\n```\n:::\n\n::: {.cell}\n\n:::\n\n::: {.cell}\n\n```{.r .cell-code}\nfile <- here::here(\"data\", \"avhrr-only-v2.20160503.nc\")\n```\n:::\n\n::: {.cell}\n\n```{.r .cell-code}\nsst_layer <- rast(file, subds = \"sst\") |>\n  rotate()\n\nsst_layer\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\nclass       : SpatRaster \ndimensions  : 720, 1440, 1  (nrow, ncol, nlyr)\nresolution  : 0.25, 0.25  (x, y)\nextent      : -180, 180, -90, 90  (xmin, xmax, ymin, ymax)\ncoord. ref. : lon/lat WGS 84 (CRS84) (OGC:CRS84) \nsource(s)   : memory\nvarname     : sst (Daily sea surface temperature) \nname        : sst_zlev=0 \nmin value   :      -1.80 \nmax value   :      32.69 \nunit        :  degrees C \ntime (days) : 2016-05-03 \n```\n\n\n:::\n:::\n\n::: {.cell}\n\n```{.r .cell-code}\nplot(sst_layer)\n```\n\n::: {.cell-output-display}\n![](01_basics_files/figure-html/unnamed-chunk-5-1.png)\n:::\n:::\n\n::: {.cell}\n\n```{.r .cell-code}\nggplot() +\n  geom_spatraster(data = sst_layer) +\n  scale_fill_viridis_c(na.value = \"transparent\") +\n  labs(fill = \"Sea Surface\\nTemperature (°C)\") +\n  coord_sf(crs = \"+proj=robin\")\n```\n\n::: {.cell-output-display}\n![](01_basics_files/figure-html/unnamed-chunk-6-1.png)\n:::\n:::\n",
+    "supporting": [
+      "01_basics_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

@@ -1,6 +1,12 @@
 # GDAL Virtual File Systems
 
 ```{r}
+#| label: crop_hook
+#| echo: false
+knitr::knit_hooks[["set"]](crop = knitr::hook_pdfcrop)
+```
+
+```{r}
 #| label: setup
 library(terra)
 ```
@@ -11,6 +17,7 @@ library(terra)
 
 ```{r}
 #| label: vsicurl
+#| crop: true
 
 r <- terra::rast(
   "/vsicurl/https://gebco2023.s3.valeria.science/gebco_2023_sub_ice_topo_cog.tif"
@@ -27,6 +34,7 @@ plot(r)
 
 ```{r}
 #| label: vsigzip
+#| crop: true
 
 sic <- rast(
   "/vsigzip//vsicurl/ftp://ftp-projects.cen.uni-hamburg.de/seaice/AMSR2/3.125km/Arc_20201010_res3.125_pyres.nc.gz",
@@ -54,5 +62,7 @@ sic
 Now the data has the correct extent and projection. Each pixel represents the sea ice concentration in a 3.125 km x 3.125 km area.
 
 ```{r}
+#| crop: true
+
 plot(sic)
 ```

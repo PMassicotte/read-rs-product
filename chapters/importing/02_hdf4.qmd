@@ -1,6 +1,12 @@
 # HDF4 format
 
 ```{r}
+#| label: crop_hook
+#| echo: false
+knitr::knit_hooks[["set"]](crop = knitr::hook_pdfcrop)
+```
+
+```{r}
 library(terra)
 ```
 
@@ -65,6 +71,7 @@ ice_layer <- rast(file, subds = "ice")
 We can visualize the layers using the `plot()` function:
 
 ```{r}
+#| crop: true
 par(mfrow = c(2L, 2L))
 plot(sst_layer, main = "SST")
 plot(anom_layer, main = "Anomaly")
@@ -75,6 +82,7 @@ plot(ice_layer, main = "Ice")
 It looks like the raster is rotated. We can rotate it back with the `rotate()` function:
 
 ```{r}
+#| crop: true
 sst_layer <- rotate(sst_layer)
 
 plot(sst_layer)

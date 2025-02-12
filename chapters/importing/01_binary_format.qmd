@@ -1,6 +1,12 @@
 # Binary format
 
 ```{r}
+#| label: crop_hook
+#| echo: false
+knitr::knit_hooks[["set"]](crop = knitr::hook_pdfcrop)
+```
+
+```{r}
 #| label: setup
 library(terra)
 ```
@@ -74,6 +80,7 @@ According to the documentation:
 We can turn the data into a raster object using the `terra` package. The sea ice concentration values are stored in a 448x304 matrix, which we can convert to a raster object.
 
 ```{r}
+#| crop: true
 sic_matrix <- matrix(sic, nrow = 448L, ncol = 304L, byrow = TRUE)
 
 r <- rast(sic_matrix)
