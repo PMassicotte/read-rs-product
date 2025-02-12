@@ -18,9 +18,6 @@ options(
       R.version[["os"]]
     )
   ),
-  lintr.object_usage_linter = NULL,
-  lintr.linter_file = ".lintr", # nolint
-
   # Disable completion from the language server
   languageserver.server_capabilities =
     list(
