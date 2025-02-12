@@ -74,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-974e931fc677b4491de43dc9219a33ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-6726751cc9a417ccb3c7268f693117bd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-bde82408f62f05fe072dcba944330ca3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -115,7 +115,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/importing/01_binary_format.html">Importing and Exporting Data</a></li><li class="breadcrumb-item"><a href="../../chapters/importing/03_he5.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">HE5 format</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/importing/01_binary_format.html">Importing</a></li><li class="breadcrumb-item"><a href="../../chapters/importing/03_he5.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">HE5 format</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -152,7 +152,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Importing and Exporting Data</span></a>
+ <span class="menu-text">Importing</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -207,6 +207,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Plotting</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/plotting/01_basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Plotting spatial data</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/references.html" class="sidebar-item-text sidebar-link">
@@ -223,14 +240,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#using-describe-to-list-available-layers" id="toc-using-describe-to-list-available-layers" class="nav-link active" data-scroll-target="#using-describe-to-list-available-layers"><span class="header-section-number">3.1</span> Using <code>describe()</code> to List available layers</a></li>
+  <li><a href="#using-describe-to-list-available-layers" id="toc-using-describe-to-list-available-layers" class="nav-link active" data-scroll-target="#using-describe-to-list-available-layers"><span class="header-section-number">3.1</span> Using <code>describe()</code> to list available layers</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/PMassicotte/r-spatial-cookbook/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/importing/01_binary_format.html">Importing and Exporting Data</a></li><li class="breadcrumb-item"><a href="../../chapters/importing/03_he5.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">HE5 format</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/importing/01_binary_format.html">Importing</a></li><li class="breadcrumb-item"><a href="../../chapters/importing/03_he5.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">HE5 format</span></a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">HE5 format</span></h1>
 </div>
@@ -279,7 +296,7 @@ Disclaimer
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>sf<span class="sc">::</span><span class="fu">gdal_utils</span>(<span class="st">"info"</span>, <span class="fu">unlist</span>(sds)[[<span class="dv">30</span>L]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Driver: netCDF/Network Common Data Format
-Files: /media/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5
+Files: /media/LaCie16TB/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5
 Size is 608, 896
 Metadata:
   /HDFEOS INFORMATION/NC_GLOBAL#HDFEOSVersion=HDFEOS_5.1.15
@@ -294,16 +311,16 @@ Metadata:
   NC_GLOBAL#source=satellite observation
   NC_GLOBAL#title=AMSR-E/AMSR2 Unified L3 Daily 12.5 km Brightness Temperatures, Sea Ice Concentration, Motion &amp; Snow Depth Polar Grids
 Geolocation:
-  GEOREFERENCING_CONVENTION=PIXEL_CENTER
-  LINE_OFFSET=0
-  LINE_STEP=1
+  SRS=GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AXIS["Latitude",NORTH],AXIS["Longitude",EAST],AUTHORITY["EPSG","4326"]]
+  X_DATASET=NETCDF:"/media/LaCie16TB/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5":/HDFEOS/GRIDS/NpPolarGrid12km/lon
+  X_BAND=1
+  Y_DATASET=NETCDF:"/media/LaCie16TB/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5":/HDFEOS/GRIDS/NpPolarGrid12km/lat
+  Y_BAND=1
   PIXEL_OFFSET=0
   PIXEL_STEP=1
-  SRS=GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AXIS["Latitude",NORTH],AXIS["Longitude",EAST],AUTHORITY["EPSG","4326"]]
-  X_BAND=1
-  X_DATASET=NETCDF:"/media/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5":/HDFEOS/GRIDS/NpPolarGrid12km/lon
-  Y_BAND=1
-  Y_DATASET=NETCDF:"/media/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5":/HDFEOS/GRIDS/NpPolarGrid12km/lat
+  LINE_OFFSET=0
+  LINE_STEP=1
+  GEOREFERENCING_CONVENTION=PIXEL_CENTER
 Corner Coordinates:
 Upper Left  (    0.0,    0.0)
 Lower Left  (    0.0,  896.0)
@@ -313,11 +330,11 @@ Center      (  304.0,  448.0)
 Band 1 Block=608x1 Type=Int32, ColorInterp=Undefined
   Unit Type: percent
   Metadata:
-    comment=data value meaning: 0 -- Open Water, 110 -- missing/not calculated, 120 -- Land
+    NETCDF_VARNAME=SI_12km_NH_ICECON_DAY
     coordinates=lon lat
     long_name=Sea ice concentration daily average
-    NETCDF_VARNAME=SI_12km_NH_ICECON_DAY
-    units=percent</code></pre>
+    units=percent
+    comment=data value meaning: 0 -- Open Water, 110 -- missing/not calculated, 120 -- Land</code></pre>
 </div>
 </div>
 <p>The data needs to be transformed to a standard coordinate reference system (CRS). EPSG:3411 (NSIDC Sea Ice Polar Stereographic North) is commonly used for Northern Hemisphere sea ice data. The <code>gdal_utils()</code> function warps the data to this CRS and saves it to a temporary VRT (Virtual Raster) file. VRT files are useful because they act as a pointer to the original data without duplicating it, and allow for on-the-fly transformations.</p>
@@ -334,31 +351,60 @@ Band 1 Block=608x1 Type=Int32, ColorInterp=Undefined
 <p>The <code>rast()</code> function from the <code>terra</code> package is used to read the VRT file and create a <code>SpatRaster</code> object. This object contains the sea ice concentration data, which can be visualized using the <code>plot()</code> function.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">rast</span>(dsn)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>r</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>class       : SpatRaster 
+dimensions  : 897, 608, 1  (nrow, ncol, nlyr)
+resolution  : 12499.99, 12499.99  (x, y)
+extent      : -3850009, 3749985, -5356238, 5856254  (xmin, xmax, ymin, ymax)
+coord. ref. : NSIDC Sea Ice Polar Stereographic North (EPSG:3411) 
+source      : temp.vrt 
+name        : temp </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="03_he5_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img"></p>
+<p><img src="03_he5_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <section id="using-describe-to-list-available-layers" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="using-describe-to-list-available-layers"><span class="header-section-number">3.1</span> Using <code>describe()</code> to List available layers</h2>
-<p>Simpler, can read the data directly from the HE5 file.</p>
+<h2 data-number="3.1" class="anchored" data-anchor-id="using-describe-to-list-available-layers"><span class="header-section-number">3.1</span> Using <code>describe()</code> to list available layers</h2>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Reading the data directly from the HE5 file with <code>terra</code> might not work correctly. You may get the message <em>can not find the spatial extent</em>. If this happens, you can use the <code>gdalraster</code> package to read the data and then convert it to a <code>SpatRaster</code> object or use recent versions of <a href="https://gdal.org/">gdal</a> and <a href="https://proj.org/">proj</a> libraries.</p>
+</div>
+</div>
+<p>The installed version of <code>gdal</code> can be checked with the following command:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>var_names <span class="ot">&lt;-</span> <span class="fu">describe</span>(file, <span class="at">sds =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(var_names)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gdalinfo</span> <span class="at">--version</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>GDAL 3.10.1, released 2025/01/08 (debug build)</code></pre>
+</div>
+</div>
+<p>If you have a recent version of <code>gdal</code>, you read the data directly from the HE5 file with the <code>terra</code> package.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>var_names <span class="ot">&lt;-</span> <span class="fu">describe</span>(file, <span class="at">sds =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(var_names)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="kable-table">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 0%">
-<col style="width: 49%">
+<col style="width: 50%">
 <col style="width: 18%">
-<col style="width: 26%">
+<col style="width: 25%">
 <col style="width: 1%">
 <col style="width: 1%">
 <col style="width: 1%">
@@ -377,7 +423,7 @@ Band 1 Block=608x1 Type=Int32, ColorInterp=Undefined
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">1</td>
-<td style="text-align: left;">HDF5:“/media/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5”://HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_ASC</td>
+<td style="text-align: left;">HDF5:“/media/LaCie16TB/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5”://HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_ASC</td>
 <td style="text-align: left;">//HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_ASC</td>
 <td style="text-align: left;">[896x608] //HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_ASC (32-bit integer)</td>
 <td style="text-align: right;">896</td>
@@ -386,7 +432,7 @@ Band 1 Block=608x1 Type=Int32, ColorInterp=Undefined
 </tr>
 <tr class="even">
 <td style="text-align: right;">2</td>
-<td style="text-align: left;">HDF5:“/media/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5”://HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_DAY</td>
+<td style="text-align: left;">HDF5:“/media/LaCie16TB/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5”://HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_DAY</td>
 <td style="text-align: left;">//HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_DAY</td>
 <td style="text-align: left;">[896x608] //HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_DAY (32-bit integer)</td>
 <td style="text-align: right;">896</td>
@@ -395,7 +441,7 @@ Band 1 Block=608x1 Type=Int32, ColorInterp=Undefined
 </tr>
 <tr class="odd">
 <td style="text-align: right;">3</td>
-<td style="text-align: left;">HDF5:“/media/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5”://HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_DSC</td>
+<td style="text-align: left;">HDF5:“/media/LaCie16TB/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5”://HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_DSC</td>
 <td style="text-align: left;">//HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_DSC</td>
 <td style="text-align: left;">[896x608] //HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_DSC (32-bit integer)</td>
 <td style="text-align: right;">896</td>
@@ -404,7 +450,7 @@ Band 1 Block=608x1 Type=Int32, ColorInterp=Undefined
 </tr>
 <tr class="even">
 <td style="text-align: right;">4</td>
-<td style="text-align: left;">HDF5:“/media/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5”://HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_ASC</td>
+<td style="text-align: left;">HDF5:“/media/LaCie16TB/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5”://HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_ASC</td>
 <td style="text-align: left;">//HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_ASC</td>
 <td style="text-align: left;">[896x608] //HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_ASC (32-bit integer)</td>
 <td style="text-align: right;">896</td>
@@ -413,7 +459,7 @@ Band 1 Block=608x1 Type=Int32, ColorInterp=Undefined
 </tr>
 <tr class="odd">
 <td style="text-align: right;">5</td>
-<td style="text-align: left;">HDF5:“/media/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5”://HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_DAY</td>
+<td style="text-align: left;">HDF5:“/media/LaCie16TB/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5”://HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_DAY</td>
 <td style="text-align: left;">//HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_DAY</td>
 <td style="text-align: left;">[896x608] //HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_DAY (32-bit integer)</td>
 <td style="text-align: right;">896</td>
@@ -422,7 +468,7 @@ Band 1 Block=608x1 Type=Int32, ColorInterp=Undefined
 </tr>
 <tr class="even">
 <td style="text-align: right;">6</td>
-<td style="text-align: left;">HDF5:“/media/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5”://HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_DSC</td>
+<td style="text-align: left;">HDF5:“/media/LaCie16TB/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5”://HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_DSC</td>
 <td style="text-align: left;">//HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_DSC</td>
 <td style="text-align: left;">[896x608] //HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_DSC (32-bit integer)</td>
 <td style="text-align: right;">896</td>
@@ -433,33 +479,43 @@ Band 1 Block=608x1 Type=Int32, ColorInterp=Undefined
 </table>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>layer <span class="ot">&lt;-</span> var_names[[<span class="st">"var"</span>]][<span class="fu">grepl</span>(<span class="st">"SI_12km_NH_ICECON_DAY"</span>, var_names[[<span class="st">"var"</span>]], <span class="at">fixed =</span> <span class="cn">TRUE</span>)]</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>layer</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>layer <span class="ot">&lt;-</span> var_names[[<span class="st">"var"</span>]][<span class="fu">grepl</span>(<span class="st">"SI_12km_NH_ICECON_DAY"</span>, var_names[[<span class="st">"var"</span>]], <span class="at">fixed =</span> <span class="cn">TRUE</span>)]</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>layer</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "//HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_ICECON_DAY"</code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>ice_layer <span class="ot">&lt;-</span> <span class="fu">rast</span>(file, <span class="at">subds =</span> layer)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>ice_layer</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>class       : SpatRaster 
+dimensions  : 896, 608, 1  (nrow, ncol, nlyr)
+resolution  : 12500, 12500  (x, y)
+extent      : -3850000, 3750000, -5350000, 5850000  (xmin, xmax, ymin, ymax)
+coord. ref. : +proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +x_0=0 +y_0=0 +R=6378273 +units=m +no_defs 
+source      : AMSR_U2_L3_SeaIce12km_B04_20140314.he5://SI_12km_NH_ICECON_DAY 
+varname     : SI_12km_NH_ICECON_DAY 
+name        : SI_12km_NH_ICECON_DAY </code></pre>
 </div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>ice_layer <span class="ot">&lt;-</span> <span class="fu">rast</span>(file, <span class="at">subds =</span> layer)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Why are the dimensions different?</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 897 608   1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(ice_layer)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(ice_layer)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 896 608   1</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ice_layer)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ice_layer)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="03_he5_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img"></p>
+<p><img src="03_he5_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>

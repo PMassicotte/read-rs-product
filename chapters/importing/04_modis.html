@@ -74,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-974e931fc677b4491de43dc9219a33ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-6726751cc9a417ccb3c7268f693117bd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-bde82408f62f05fe072dcba944330ca3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -115,7 +115,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/importing/01_binary_format.html">Importing and Exporting Data</a></li><li class="breadcrumb-item"><a href="../../chapters/importing/04_modis.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">HDF5 and NetCDF Files from MODIS Ocean Color Data</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/importing/01_binary_format.html">Importing</a></li><li class="breadcrumb-item"><a href="../../chapters/importing/04_modis.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">HDF5 and NetCDF Files from MODIS Ocean Color Data</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -152,7 +152,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Importing and Exporting Data</span></a>
+ <span class="menu-text">Importing</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -207,6 +207,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Plotting</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/plotting/01_basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Plotting spatial data</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/references.html" class="sidebar-item-text sidebar-link">
@@ -232,7 +249,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/importing/01_binary_format.html">Importing and Exporting Data</a></li><li class="breadcrumb-item"><a href="../../chapters/importing/04_modis.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">HDF5 and NetCDF Files from MODIS Ocean Color Data</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/importing/01_binary_format.html">Importing</a></li><li class="breadcrumb-item"><a href="../../chapters/importing/04_modis.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">HDF5 and NetCDF Files from MODIS Ocean Color Data</span></a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">HDF5 and NetCDF Files from MODIS Ocean Color Data</span></h1>
 </div>
@@ -263,7 +280,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="l3bin-level-3-binned-data---hdf5" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="l3bin-level-3-binned-data---hdf5"><span class="header-section-number">4.1</span> L3BIN (Level-3 Binned Data) - HDF5</h2>
 <p>Level-3 binned (L3b) files are HDF5 files containing data that has been statistically processed and binned into spatial grids. The data is organized in layers, where each layer represents a different variable. These layers are stored in the <code>/level-3_binned_data</code> group within the HDF5 file. The <code>BinList</code> layer is particularly important, as it contains the bin information, such as the bin’s coordinates and the bin’s weights, which are crucial for proper interpretation of the data.</p>
-<p>In R, these files can be read using the <code>rhdf5</code> package from <a href="https://bioconductor.org/install/">bioconductor</a>. If you haven’t already, you’ll need to install the <code>rhdf5</code> package. The following code shows how to install the package and then reads the <code>chlor_a</code> layer (chlorophyll-a concentration) from the file <code>A2016160.L3b_DAY_CHL.nc</code></p>
+<p>In R, these files can be read using the <code>rhdf5</code> package from <a href="https://bioconductor.org/install/">bioconductor</a>. If you haven’t already, you’ll need to install the <code>rhdf5</code> package. The following code shows how to install the package and then reads the <code>chlor_a</code> layer (chlorophyll-a concentration) from the file <code>A2016160.L3b_DAY_CHL.nc</code>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"BiocManager"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install.packages</span>(<span class="st">"BiocManager"</span>)</span>
@@ -520,7 +537,7 @@ unit        : mg m^-3 </code></pre>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="04_modis_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img"></p>
+<p><img src="04_modis_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -538,9 +555,9 @@ unit        : mg m^-3 </code></pre>
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 1%">
-<col style="width: 57%">
+<col style="width: 58%">
 <col style="width: 11%">
-<col style="width: 24%">
+<col style="width: 23%">
 <col style="width: 1%">
 <col style="width: 1%">
 <col style="width: 1%">
@@ -559,7 +576,7 @@ unit        : mg m^-3 </code></pre>
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">1</td>
-<td style="text-align: left;">HDF4_EOS:EOS_GRID:“/media/work/projects/documentation/read_rs_product/data/MYD08_D3.A2003181.061.2018007232726.hdf”:mod08:Solar_Zenith_Mean</td>
+<td style="text-align: left;">HDF4_EOS:EOS_GRID:“/media/LaCie16TB/work/projects/documentation/read_rs_product/data/MYD08_D3.A2003181.061.2018007232726.hdf”:mod08:Solar_Zenith_Mean</td>
 <td style="text-align: left;">Solar_Zenith_Mean</td>
 <td style="text-align: left;">[180x360] Solar_Zenith_Mean mod08 (16-bit integer)</td>
 <td style="text-align: right;">180</td>
@@ -568,7 +585,7 @@ unit        : mg m^-3 </code></pre>
 </tr>
 <tr class="even">
 <td style="text-align: right;">2</td>
-<td style="text-align: left;">HDF4_EOS:EOS_GRID:“/media/work/projects/documentation/read_rs_product/data/MYD08_D3.A2003181.061.2018007232726.hdf”:mod08:Solar_Zenith_Standard_Deviation</td>
+<td style="text-align: left;">HDF4_EOS:EOS_GRID:“/media/LaCie16TB/work/projects/documentation/read_rs_product/data/MYD08_D3.A2003181.061.2018007232726.hdf”:mod08:Solar_Zenith_Standard_Deviation</td>
 <td style="text-align: left;">Solar_Zenith_Standard_Deviation</td>
 <td style="text-align: left;">[180x360] Solar_Zenith_Standard_Deviation mod08 (16-bit integer)</td>
 <td style="text-align: right;">180</td>
@@ -577,7 +594,7 @@ unit        : mg m^-3 </code></pre>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">3</td>
-<td style="text-align: left;">HDF4_EOS:EOS_GRID:“/media/work/projects/documentation/read_rs_product/data/MYD08_D3.A2003181.061.2018007232726.hdf”:mod08:Solar_Zenith_Minimum</td>
+<td style="text-align: left;">HDF4_EOS:EOS_GRID:“/media/LaCie16TB/work/projects/documentation/read_rs_product/data/MYD08_D3.A2003181.061.2018007232726.hdf”:mod08:Solar_Zenith_Minimum</td>
 <td style="text-align: left;">Solar_Zenith_Minimum</td>
 <td style="text-align: left;">[180x360] Solar_Zenith_Minimum mod08 (16-bit integer)</td>
 <td style="text-align: right;">180</td>
@@ -586,7 +603,7 @@ unit        : mg m^-3 </code></pre>
 </tr>
 <tr class="even">
 <td style="text-align: right;">4</td>
-<td style="text-align: left;">HDF4_EOS:EOS_GRID:“/media/work/projects/documentation/read_rs_product/data/MYD08_D3.A2003181.061.2018007232726.hdf”:mod08:Solar_Zenith_Maximum</td>
+<td style="text-align: left;">HDF4_EOS:EOS_GRID:“/media/LaCie16TB/work/projects/documentation/read_rs_product/data/MYD08_D3.A2003181.061.2018007232726.hdf”:mod08:Solar_Zenith_Maximum</td>
 <td style="text-align: left;">Solar_Zenith_Maximum</td>
 <td style="text-align: left;">[180x360] Solar_Zenith_Maximum mod08 (16-bit integer)</td>
 <td style="text-align: right;">180</td>
@@ -595,7 +612,7 @@ unit        : mg m^-3 </code></pre>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">5</td>
-<td style="text-align: left;">HDF4_EOS:EOS_GRID:“/media/work/projects/documentation/read_rs_product/data/MYD08_D3.A2003181.061.2018007232726.hdf”:mod08:Solar_Zenith_Pixel_Counts</td>
+<td style="text-align: left;">HDF4_EOS:EOS_GRID:“/media/LaCie16TB/work/projects/documentation/read_rs_product/data/MYD08_D3.A2003181.061.2018007232726.hdf”:mod08:Solar_Zenith_Pixel_Counts</td>
 <td style="text-align: left;">Solar_Zenith_Pixel_Counts</td>
 <td style="text-align: left;">[180x360] Solar_Zenith_Pixel_Counts mod08 (16-bit integer)</td>
 <td style="text-align: right;">180</td>
@@ -604,7 +621,7 @@ unit        : mg m^-3 </code></pre>
 </tr>
 <tr class="even">
 <td style="text-align: right;">6</td>
-<td style="text-align: left;">HDF4_EOS:EOS_GRID:“/media/work/projects/documentation/read_rs_product/data/MYD08_D3.A2003181.061.2018007232726.hdf”:mod08:Solar_Azimuth_Mean</td>
+<td style="text-align: left;">HDF4_EOS:EOS_GRID:“/media/LaCie16TB/work/projects/documentation/read_rs_product/data/MYD08_D3.A2003181.061.2018007232726.hdf”:mod08:Solar_Azimuth_Mean</td>
 <td style="text-align: left;">Solar_Azimuth_Mean</td>
 <td style="text-align: left;">[180x360] Solar_Azimuth_Mean mod08 (16-bit integer)</td>
 <td style="text-align: right;">180</td>
