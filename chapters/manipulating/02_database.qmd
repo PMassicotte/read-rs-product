@@ -1,0 +1,110 @@
+# Spatial databases
+
+```{r}
+#| label: crop_hook
+#| echo: false
+knitr::knit_hooks[["set"]](crop = knitr::hook_pdfcrop)
+```
+
+## Create a connection to DuckDB
+
+```{r}
+library(DBI)
+library(duckdb)
+library(sf)
+library(dplyr)
+
+conn <- dbConnect(duckdb())
+```
+
+## File Path and Database Setup
+
+Here, the code retrieves the file path of a sample GeoPackage file included with the `sf` package. It also installs and loads the necessary extensions (`httpfs` and `spatial`) in DuckDB to handle spatial data.
+
+```{r}
+file <- system.file("gpkg/nc.gpkg", package = "sf")
+
+dbExecute(conn, "INSTALL httpfs; LOAD httpfs; INSTALL spatial; LOAD spatial")
+```
+
+## Creating a Table with Spatial Data
+
+This section constructs a SQL query to create a table (`mytable`) from the GeoPackage file. It reads the spatial data and converts the geometry column to Well-Known Binary (WKB) format. The query is then executed with the file path bound as a parameter.
+
+```{r}
+query <-
+  "
+    CREATE OR REPLACE TABLE mytable AS
+    SELECT
+      *,
+      ST_asWKB (geom) AS geom2
+    FROM
+     ST_Read (?)
+  "
+
+stmt <- dbSendStatement(conn, query, params = list(file))
+dbGetRowsAffected(stmt)
+dbClearResult(stmt)
+```
+
+## Describing the Table
+
+This part describes the structure of the newly created table and lists all tables in the database.
+
+```{r}
+dbSendQuery(conn, "DESCRIBE mytable;") |>
+  dbFetch()
+```
+
+```{r}
+dbSendQuery(
+  conn,
+  "FROM (SUMMARIZE mytable) AS summarized_table WHERE NOT regexp_matches(column_name,'geom')"
+) |>
+  dbFetch()
+```
+
+## Reading and Converting Spatial Data
+
+Here, the code reads the spatial data from the `mytable` table, specifying the geometry column (`geom2`). The result is converted to a tibble and then to an `sf` object for spatial data manipulation.
+
+```{r}
+res <- st_read(
+  conn,
+  query =
+    "
+      SELECT
+        *
+      FROM
+       mytable;
+    ",
+  geometry_column = "geom2"
+) |>
+  st_as_sf() |>
+  select(-geom) |>
+  head()
+```
+
+## Filtering and Plotting Spatial Data
+
+Filter the spatial data based on intersection with a specific point.
+
+```{r}
+tbl(conn, "mytable") |>
+  filter(ST_Intersects(geom, "SRID=4326;POINT (-81.5 36.43)")) |>
+  select(-contains("geom"))
+```
+
+## Filter by Area and Plot
+
+Filter the spatial data based on area greater than 0.14 and plot the results.
+
+```{r}
+#| crop: true
+res <- tbl(conn, "mytable") |>
+  filter(ST_Area(geom) > 0.14) |>
+  collect() |>
+  st_as_sf()
+
+plot(st_geometry(res), lwd = 0.5)
+```

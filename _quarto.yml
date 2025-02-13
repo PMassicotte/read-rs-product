@@ -23,6 +23,10 @@ book:
     - part: "Plotting"
       chapters:
         - chapters/plotting/01_basics.qmd
+    - part: "Manipulating"
+      chapters:
+        - chapters/manipulating/01_spatial_resolution.qmd
+        - chapters/manipulating/02_database.qmd
     - chapters/references.qmd
 
 format:

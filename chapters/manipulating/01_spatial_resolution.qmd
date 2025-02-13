@@ -1,0 +1,85 @@
+# Spatial resolution
+
+```{r}
+#| label: crop_hook
+#| echo: false
+knitr::knit_hooks[["set"]](crop = knitr::hook_pdfcrop)
+```
+
+```{r}
+#| label: setup
+library(terra)
+library(tidyterra)
+```
+
+- Read the Baffin Bay polygon.
+- Read bathymetry data from the GEBCO 2022 dataset and crop it to the Baffin Bay extent using the `win` argument.
+
+```{r}
+#| label: load_baffin_polygon
+
+baffin <- vect("https://github.com/PMassicotte/baffin_bay_polygon/blob/main/data/clean/baffin_bay.gpkg?raw=true")
+```
+
+```{r}
+#| crop: true
+#| label: plot_baffin
+
+crop_extent <- ext(project(baffin, "EPSG:4326"))
+
+wm <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sv")
+
+plot(wm, lwd = 0.25)
+plot(project(baffin, "EPSG:4326"), add = TRUE, col = "red")
+```
+
+```{r}
+#| crop: true
+#| label: load_bathy_raster
+
+r <- rast(
+  "/vsicurl/https://gebco2022.s3.valeria.science/gebco_2022_complete_cog.tif",
+  win = crop_extent
+) |>
+  project(crs(baffin))
+
+plot(r)
+```
+
+- Set a new resolution at 50 km
+- Resample the raster using the bilinear method
+- Plot the original and resampled rasters
+- Compare the original and resampled resolution
+
+```{r}
+#| crop: true
+
+r2 <- rast(ext(r))
+r2
+
+res(r2) <- 50000L
+
+r2 <- resample(r, r2, method = "bilinear")
+
+op <- par(mfrow = c(1L, 2L))
+plot(r)
+plot(r2)
+par(op)
+
+plot(as.polygons(r2))
+plot(as.points(r2), cex = 0.2, add = TRUE, col = "red")
+
+plot(r2)
+plot(as.lines(r2), add = TRUE)
+
+r
+r2
+```
+
+```{r}
+#| crop: true
+
+r3 <- mask(r2, baffin, touches = FALSE)
+plot(r3)
+plot(baffin, add = TRUE)
+```
