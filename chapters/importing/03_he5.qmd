@@ -59,12 +59,13 @@ r
 plot(r)
 ```
 
-## Using `describe()` to list available layers
+## Using `terra` directly
 
 ::: {.callout-warning}
 
-Reading the data directly from the HE5 file with `terra` might not work correctly. You may get the message _can not find the spatial extent_. If this happens, you can use the `gdalraster` package to read the data and then convert it to a `SpatRaster` object or use recent versions of [gdal](https://gdal.org/) and [proj](https://proj.org/) libraries.
+Reading data from HE5 files using the `terra` package may not always work correctly, and you might encounter the error message "cannot find the spatial extent." If this happens, you can use the `gdalraster` package to read the data and then convert it to a `SpatRaster` object (as seen above).
 
+To read data directly from an HE5 file with `terra`, ensure that `terra` is built with recent versions of the [GDAL](https://gdal.org/) and [PROJ](https://proj.org/) libraries. Note that compatibility with `GDAL` v3.9.x is unlikely.
 :::
 
 The installed version of `gdal` can be checked with the following command:
