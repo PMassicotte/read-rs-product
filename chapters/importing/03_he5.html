@@ -224,6 +224,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Manipulating</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/manipulating/01_spatial_resolution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Spatial resolution</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/manipulating/02_database.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Spatial databases</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/references.html" class="sidebar-item-text sidebar-link">
@@ -240,7 +263,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#using-describe-to-list-available-layers" id="toc-using-describe-to-list-available-layers" class="nav-link active" data-scroll-target="#using-describe-to-list-available-layers"><span class="header-section-number">3.1</span> Using <code>describe()</code> to list available layers</a></li>
+  <li><a href="#using-terra-directly" id="toc-using-terra-directly" class="nav-link active" data-scroll-target="#using-terra-directly"><span class="header-section-number">3.1</span> Using <code>terra</code> directly</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/PMassicotte/r-spatial-cookbook/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -349,7 +372,7 @@ Band 1 Block=608x1 Type=Int32, ColorInterp=Undefined
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The <code>rast()</code> function from the <code>terra</code> package is used to read the VRT file and create a <code>SpatRaster</code> object. This object contains the sea ice concentration data, which can be visualized using the <code>plot()</code> function.</p>
-<div class="cell">
+<div class="cell" data-crop="true">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">rast</span>(dsn)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>r</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -370,8 +393,8 @@ name        : temp </code></pre>
 </div>
 </div>
 </div>
-<section id="using-describe-to-list-available-layers" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="using-describe-to-list-available-layers"><span class="header-section-number">3.1</span> Using <code>describe()</code> to list available layers</h2>
+<section id="using-terra-directly" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="using-terra-directly"><span class="header-section-number">3.1</span> Using <code>terra</code> directly</h2>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -382,7 +405,8 @@ Warning
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Reading the data directly from the HE5 file with <code>terra</code> might not work correctly. You may get the message <em>can not find the spatial extent</em>. If this happens, you can use the <code>gdalraster</code> package to read the data and then convert it to a <code>SpatRaster</code> object or use recent versions of <a href="https://gdal.org/">gdal</a> and <a href="https://proj.org/">proj</a> libraries.</p>
+<p>Reading data from HE5 files using the <code>terra</code> package may not always work correctly, and you might encounter the error message “cannot find the spatial extent.” If this happens, you can use the <code>gdalraster</code> package to read the data and then convert it to a <code>SpatRaster</code> object (as seen above).</p>
+<p>To read data directly from an HE5 file with <code>terra</code>, ensure that <code>terra</code> is built with recent versions of the <a href="https://gdal.org/">GDAL</a> and <a href="https://proj.org/">PROJ</a> libraries. Note that compatibility with <code>GDAL</code> v3.9.x is unlikely.</p>
 </div>
 </div>
 <p>The installed version of <code>gdal</code> can be checked with the following command:</p>
@@ -510,7 +534,7 @@ name        : SI_12km_NH_ICECON_DAY </code></pre>
 <pre><code>[1] 896 608   1</code></pre>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-crop="true">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ice_layer)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>

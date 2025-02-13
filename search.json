@@ -58,18 +58,18 @@
     "href": "chapters/importing/03_he5.html",
     "title": "3  HE5 format",
     "section": "",
-    "text": "3.1 Using describe() to list available layers\nThis section demonstrates how to access and visualize sea ice concentration data stored in HE5 files, focusing on data from the AMSR-E/AMSR2 Unified L3 Daily 12.5 km dataset. We’ll use R along with the gdalraster, stars, terra, and sf packages.\nThe code leverages the NetCDF interface to access subdatasets within the HE5 file. This allows us to access the geolocation arrays, which is crucial for proper spatial referencing.\nThe data needs to be transformed to a standard coordinate reference system (CRS). EPSG:3411 (NSIDC Sea Ice Polar Stereographic North) is commonly used for Northern Hemisphere sea ice data. The gdal_utils() function warps the data to this CRS and saves it to a temporary VRT (Virtual Raster) file. VRT files are useful because they act as a pointer to the original data without duplicating it, and allow for on-the-fly transformations.\nThe rast() function from the terra package is used to read the VRT file and create a SpatRaster object. This object contains the sea ice concentration data, which can be visualized using the plot() function.\nThe installed version of gdal can be checked with the following command:\ngdalinfo --version\n\nGDAL 3.10.1, released 2025/01/08 (debug build)\nIf you have a recent version of gdal, you read the data directly from the HE5 file with the terra package.\nvar_names &lt;- describe(file, sds = TRUE)\n\nhead(var_names)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nid\nname\nvar\ndesc\nnrow\nncol\nnlyr\n\n\n\n\n1\nHDF5:“/media/LaCie16TB/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5”://HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_ASC\n//HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_ASC\n[896x608] //HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_ASC (32-bit integer)\n896\n608\n1\n\n\n2\nHDF5:“/media/LaCie16TB/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5”://HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_DAY\n//HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_DAY\n[896x608] //HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_DAY (32-bit integer)\n896\n608\n1\n\n\n3\nHDF5:“/media/LaCie16TB/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5”://HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_DSC\n//HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_DSC\n[896x608] //HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_DSC (32-bit integer)\n896\n608\n1\n\n\n4\nHDF5:“/media/LaCie16TB/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5”://HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_ASC\n//HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_ASC\n[896x608] //HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_ASC (32-bit integer)\n896\n608\n1\n\n\n5\nHDF5:“/media/LaCie16TB/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5”://HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_DAY\n//HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_DAY\n[896x608] //HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_DAY (32-bit integer)\n896\n608\n1\n\n\n6\nHDF5:“/media/LaCie16TB/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5”://HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_DSC\n//HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_DSC\n[896x608] //HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_DSC (32-bit integer)\n896\n608\n1\n\n\n\n\n\nlayer &lt;- var_names[[\"var\"]][grepl(\"SI_12km_NH_ICECON_DAY\", var_names[[\"var\"]], fixed = TRUE)]\n\nlayer\n\n[1] \"//HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_ICECON_DAY\"\n\nice_layer &lt;- rast(file, subds = layer)\n\nice_layer\n\nclass       : SpatRaster \ndimensions  : 896, 608, 1  (nrow, ncol, nlyr)\nresolution  : 12500, 12500  (x, y)\nextent      : -3850000, 3750000, -5350000, 5850000  (xmin, xmax, ymin, ymax)\ncoord. ref. : +proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +x_0=0 +y_0=0 +R=6378273 +units=m +no_defs \nsource      : AMSR_U2_L3_SeaIce12km_B04_20140314.he5://SI_12km_NH_ICECON_DAY \nvarname     : SI_12km_NH_ICECON_DAY \nname        : SI_12km_NH_ICECON_DAY\nWhy are the dimensions different?\ndim(r)\n\n[1] 897 608   1\n\ndim(ice_layer)\n\n[1] 896 608   1\nplot(ice_layer)",
+    "text": "3.1 Using terra directly\nThis section demonstrates how to access and visualize sea ice concentration data stored in HE5 files, focusing on data from the AMSR-E/AMSR2 Unified L3 Daily 12.5 km dataset. We’ll use R along with the gdalraster, stars, terra, and sf packages.\nThe code leverages the NetCDF interface to access subdatasets within the HE5 file. This allows us to access the geolocation arrays, which is crucial for proper spatial referencing.\nThe data needs to be transformed to a standard coordinate reference system (CRS). EPSG:3411 (NSIDC Sea Ice Polar Stereographic North) is commonly used for Northern Hemisphere sea ice data. The gdal_utils() function warps the data to this CRS and saves it to a temporary VRT (Virtual Raster) file. VRT files are useful because they act as a pointer to the original data without duplicating it, and allow for on-the-fly transformations.\nThe rast() function from the terra package is used to read the VRT file and create a SpatRaster object. This object contains the sea ice concentration data, which can be visualized using the plot() function.\nThe installed version of gdal can be checked with the following command:\ngdalinfo --version\n\nGDAL 3.10.1, released 2025/01/08 (debug build)\nIf you have a recent version of gdal, you read the data directly from the HE5 file with the terra package.\nvar_names &lt;- describe(file, sds = TRUE)\n\nhead(var_names)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nid\nname\nvar\ndesc\nnrow\nncol\nnlyr\n\n\n\n\n1\nHDF5:“/media/LaCie16TB/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5”://HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_ASC\n//HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_ASC\n[896x608] //HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_ASC (32-bit integer)\n896\n608\n1\n\n\n2\nHDF5:“/media/LaCie16TB/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5”://HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_DAY\n//HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_DAY\n[896x608] //HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_DAY (32-bit integer)\n896\n608\n1\n\n\n3\nHDF5:“/media/LaCie16TB/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5”://HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_DSC\n//HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_DSC\n[896x608] //HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18H_DSC (32-bit integer)\n896\n608\n1\n\n\n4\nHDF5:“/media/LaCie16TB/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5”://HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_ASC\n//HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_ASC\n[896x608] //HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_ASC (32-bit integer)\n896\n608\n1\n\n\n5\nHDF5:“/media/LaCie16TB/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5”://HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_DAY\n//HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_DAY\n[896x608] //HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_DAY (32-bit integer)\n896\n608\n1\n\n\n6\nHDF5:“/media/LaCie16TB/work/projects/documentation/read_rs_product/data/AMSR_U2_L3_SeaIce12km_B04_20140314.he5”://HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_DSC\n//HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_DSC\n[896x608] //HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_18V_DSC (32-bit integer)\n896\n608\n1\n\n\n\n\n\nlayer &lt;- var_names[[\"var\"]][grepl(\"SI_12km_NH_ICECON_DAY\", var_names[[\"var\"]], fixed = TRUE)]\n\nlayer\n\n[1] \"//HDFEOS/GRIDS/NpPolarGrid12km/Data_Fields/SI_12km_NH_ICECON_DAY\"\n\nice_layer &lt;- rast(file, subds = layer)\n\nice_layer\n\nclass       : SpatRaster \ndimensions  : 896, 608, 1  (nrow, ncol, nlyr)\nresolution  : 12500, 12500  (x, y)\nextent      : -3850000, 3750000, -5350000, 5850000  (xmin, xmax, ymin, ymax)\ncoord. ref. : +proj=stere +lat_0=90 +lat_ts=70 +lon_0=-45 +x_0=0 +y_0=0 +R=6378273 +units=m +no_defs \nsource      : AMSR_U2_L3_SeaIce12km_B04_20140314.he5://SI_12km_NH_ICECON_DAY \nvarname     : SI_12km_NH_ICECON_DAY \nname        : SI_12km_NH_ICECON_DAY\nWhy are the dimensions different?\ndim(r)\n\n[1] 897 608   1\n\ndim(ice_layer)\n\n[1] 896 608   1\nplot(ice_layer)",
     "crumbs": [
       "Importing",
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>HE5 format</span>"
     ]
   },
   {
-    "objectID": "chapters/importing/03_he5.html#using-describe-to-list-available-layers",
-    "href": "chapters/importing/03_he5.html#using-describe-to-list-available-layers",
+    "objectID": "chapters/importing/03_he5.html#using-terra-directly",
+    "href": "chapters/importing/03_he5.html#using-terra-directly",
     "title": "3  HE5 format",
     "section": "",
-    "text": "Warning\n\n\n\nReading the data directly from the HE5 file with terra might not work correctly. You may get the message can not find the spatial extent. If this happens, you can use the gdalraster package to read the data and then convert it to a SpatRaster object or use recent versions of gdal and proj libraries.",
+    "text": "Warning\n\n\n\nReading data from HE5 files using the terra package may not always work correctly, and you might encounter the error message “cannot find the spatial extent.” If this happens, you can use the gdalraster package to read the data and then convert it to a SpatRaster object (as seen above).\nTo read data directly from an HE5 file with terra, ensure that terra is built with recent versions of the GDAL and PROJ libraries. Note that compatibility with GDAL v3.9.x is unlikely.",
     "crumbs": [
       "Importing",
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>HE5 format</span>"
@@ -205,6 +205,94 @@
     "crumbs": [
       "Plotting",
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Plotting spatial data</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/manipulating/01_spatial_resolution.html",
+    "href": "chapters/manipulating/01_spatial_resolution.html",
+    "title": "8  Spatial resolution",
+    "section": "",
+    "text": "library(terra)\nlibrary(tidyterra)\n\n\nRead the Baffin Bay polygon.\nRead bathymetry data from the GEBCO 2022 dataset and crop it to the Baffin Bay extent using the win argument.\n\n\nbaffin &lt;- vect(\"https://github.com/PMassicotte/baffin_bay_polygon/blob/main/data/clean/baffin_bay.gpkg?raw=true\")\n\n\ncrop_extent &lt;- ext(project(baffin, \"EPSG:4326\"))\n\nwm &lt;- rnaturalearth::ne_countries(scale = \"medium\", returnclass = \"sv\")\n\nplot(wm, lwd = 0.25)\nplot(project(baffin, \"EPSG:4326\"), add = TRUE, col = \"red\")\n\n\n\n\n\n\n\n\n\nr &lt;- rast(\n  \"/vsicurl/https://gebco2022.s3.valeria.science/gebco_2022_complete_cog.tif\",\n  win = crop_extent\n) |&gt;\n  project(crs(baffin))\n\nplot(r)\n\n\n\n\n\n\n\n\n\nSet a new resolution at 50 km\nResample the raster using the bilinear method\nPlot the original and resampled rasters\nCompare the original and resampled resolution\n\n\nr2 &lt;- rast(ext(r))\nr2\n\nclass       : SpatRaster \ndimensions  : 10, 10, 1  (nrow, ncol, nlyr)\nresolution  : 163627.1, 186358.9  (x, y)\nextent      : 40471768, 42108039, 4602532, 6466121  (xmin, xmax, ymin, ymax)\ncoord. ref. :  \n\nres(r2) &lt;- 50000L\n\nr2 &lt;- resample(r, r2, method = \"bilinear\")\n\nop &lt;- par(mfrow = c(1L, 2L))\nplot(r)\nplot(r2)\n\n\n\n\n\n\n\npar(op)\n\nplot(as.polygons(r2))\nplot(as.points(r2), cex = 0.2, add = TRUE, col = \"red\")\n\n\n\n\n\n\n\nplot(r2)\nplot(as.lines(r2), add = TRUE)\n\n\n\n\n\n\n\nr\n\nclass       : SpatRaster \ndimensions  : 8067, 7083, 1  (nrow, ncol, nlyr)\nresolution  : 231.0138, 231.0138  (x, y)\nextent      : 40471768, 42108039, 4602532, 6466121  (xmin, xmax, ymin, ymax)\ncoord. ref. : GR96 / EPSG Arctic zone 5-41 (EPSG:6059) \nsource(s)   : memory\nname        : gebco_2022_complete_cog \nmin value   :               -2426.086 \nmax value   :                2273.907 \n\nr2\n\nclass       : SpatRaster \ndimensions  : 37, 33, 1  (nrow, ncol, nlyr)\nresolution  : 50000, 50000  (x, y)\nextent      : 40471768, 42121768, 4602532, 6452532  (xmin, xmax, ymin, ymax)\ncoord. ref. : GR96 / EPSG Arctic zone 5-41 (EPSG:6059) \nsource(s)   : memory\nname        : gebco_2022_complete_cog \nmin value   :               -2348.460 \nmax value   :                1251.003 \n\n\n\nr3 &lt;- mask(r2, baffin, touches = FALSE)\nplot(r3)\nplot(baffin, add = TRUE)",
+    "crumbs": [
+      "Manipulating",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Spatial resolution</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/manipulating/02_database.html",
+    "href": "chapters/manipulating/02_database.html",
+    "title": "9  Spatial databases",
+    "section": "",
+    "text": "9.1 Create a connection to DuckDB\nlibrary(DBI)\nlibrary(duckdb)\nlibrary(sf)\nlibrary(dplyr)\n\nconn &lt;- dbConnect(duckdb())",
+    "crumbs": [
+      "Manipulating",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Spatial databases</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/manipulating/02_database.html#file-path-and-database-setup",
+    "href": "chapters/manipulating/02_database.html#file-path-and-database-setup",
+    "title": "9  Spatial databases",
+    "section": "9.2 File Path and Database Setup",
+    "text": "9.2 File Path and Database Setup\nHere, the code retrieves the file path of a sample GeoPackage file included with the sf package. It also installs and loads the necessary extensions (httpfs and spatial) in DuckDB to handle spatial data.\n\nfile &lt;- system.file(\"gpkg/nc.gpkg\", package = \"sf\")\n\ndbExecute(conn, \"INSTALL httpfs; LOAD httpfs; INSTALL spatial; LOAD spatial\")\n\n[1] 0",
+    "crumbs": [
+      "Manipulating",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Spatial databases</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/manipulating/02_database.html#creating-a-table-with-spatial-data",
+    "href": "chapters/manipulating/02_database.html#creating-a-table-with-spatial-data",
+    "title": "9  Spatial databases",
+    "section": "9.3 Creating a Table with Spatial Data",
+    "text": "9.3 Creating a Table with Spatial Data\nThis section constructs a SQL query to create a table (mytable) from the GeoPackage file. It reads the spatial data and converts the geometry column to Well-Known Binary (WKB) format. The query is then executed with the file path bound as a parameter.\n\nquery &lt;-\n  \"\n    CREATE OR REPLACE TABLE mytable AS\n    SELECT\n      *,\n      ST_asWKB (geom) AS geom2\n    FROM\n     ST_Read (?)\n  \"\n\nstmt &lt;- dbSendStatement(conn, query, params = list(file))\ndbGetRowsAffected(stmt)\n\n[1] 100\n\ndbClearResult(stmt)",
+    "crumbs": [
+      "Manipulating",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Spatial databases</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/manipulating/02_database.html#describing-the-table",
+    "href": "chapters/manipulating/02_database.html#describing-the-table",
+    "title": "9  Spatial databases",
+    "section": "9.4 Describing the Table",
+    "text": "9.4 Describing the Table\nThis part describes the structure of the newly created table and lists all tables in the database.\n\ndbSendQuery(conn, \"DESCRIBE mytable;\") |&gt;\n  dbFetch()\n\n\n\n\n\ncolumn_name\ncolumn_type\nnull\nkey\ndefault\nextra\n\n\n\n\nAREA\nDOUBLE\nYES\nNA\nNA\nNA\n\n\nPERIMETER\nDOUBLE\nYES\nNA\nNA\nNA\n\n\nCNTY_\nDOUBLE\nYES\nNA\nNA\nNA\n\n\nCNTY_ID\nDOUBLE\nYES\nNA\nNA\nNA\n\n\nNAME\nVARCHAR\nYES\nNA\nNA\nNA\n\n\nFIPS\nVARCHAR\nYES\nNA\nNA\nNA\n\n\nFIPSNO\nDOUBLE\nYES\nNA\nNA\nNA\n\n\nCRESS_ID\nINTEGER\nYES\nNA\nNA\nNA\n\n\nBIR74\nDOUBLE\nYES\nNA\nNA\nNA\n\n\nSID74\nDOUBLE\nYES\nNA\nNA\nNA\n\n\nNWBIR74\nDOUBLE\nYES\nNA\nNA\nNA\n\n\nBIR79\nDOUBLE\nYES\nNA\nNA\nNA\n\n\nSID79\nDOUBLE\nYES\nNA\nNA\nNA\n\n\nNWBIR79\nDOUBLE\nYES\nNA\nNA\nNA\n\n\ngeom\nGEOMETRY\nYES\nNA\nNA\nNA\n\n\ngeom2\nWKB_BLOB\nYES\nNA\nNA\nNA\n\n\n\n\n\n\n\ndbSendQuery(\n  conn,\n  \"FROM (SUMMARIZE mytable) AS summarized_table WHERE NOT regexp_matches(column_name,'geom')\"\n) |&gt;\n  dbFetch()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ncolumn_name\ncolumn_type\nmin\nmax\napprox_unique\navg\nstd\nq25\nq50\nq75\ncount\nnull_percentage\n\n\n\n\nAREA\nDOUBLE\n0.042\n0.241\n86\n0.12626000000000004\n0.04920019298639987\n0.091\n0.1205\n0.1545\n100\n0\n\n\nPERIMETER\nDOUBLE\n0.999\n3.64\n92\n1.6729600000000004\n0.4823126510193709\n1.323\n1.6085\n1.863\n100\n0\n\n\nCNTY_\nDOUBLE\n1825.0\n2241.0\n112\n1985.96\n106.51664829328959\n1901.5\n1982.0\n2067.5\n100\n0\n\n\nCNTY_ID\nDOUBLE\n1825.0\n2241.0\n112\n1985.96\n106.51664829328959\n1901.5\n1982.0\n2067.5\n100\n0\n\n\nNAME\nVARCHAR\nAlamance\nYancey\n105\nNA\nNA\nNA\nNA\nNA\n100\n0\n\n\nFIPS\nVARCHAR\n37001\n37199\n83\nNA\nNA\nNA\nNA\nNA\n100\n0\n\n\nFIPSNO\nDOUBLE\n37001.0\n37199.0\n100\n37100.0\n58.022983951764346\n37050.0\n37100.0\n37150.0\n100\n0\n\n\nCRESS_ID\nINTEGER\n1\n100\n96\n50.5\n29.011491975882013\n26\n50\n76\n100\n0\n\n\nBIR74\nDOUBLE\n248.0\n21588.0\n101\n3299.62\n3848.1651269196336\n1063.0\n2180.5\n3957.0\n100\n0\n\n\nSID74\nDOUBLE\n0.0\n44.0\n24\n6.67\n7.781167371067509\n2.0\n4.0\n8.5\n100\n0\n\n\nNWBIR74\nDOUBLE\n1.0\n8027.0\n96\n1050.81\n1432.9117399353129\n180.0\n697.5\n1172.0\n100\n0\n\n\nBIR79\nDOUBLE\n319.0\n30757.0\n98\n4223.92\n5179.458159095233\n1308.5\n2636.0\n4989.0\n100\n0\n\n\nSID79\nDOUBLE\n0.0\n57.0\n29\n8.36\n9.431860898041274\n2.0\n5.0\n10.5\n100\n0\n\n\nNWBIR79\nDOUBLE\n3.0\n11631.0\n101\n1352.81\n1975.9987511497711\n241.0\n874.5\n1416.5\n100\n0",
+    "crumbs": [
+      "Manipulating",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Spatial databases</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/manipulating/02_database.html#reading-and-converting-spatial-data",
+    "href": "chapters/manipulating/02_database.html#reading-and-converting-spatial-data",
+    "title": "9  Spatial databases",
+    "section": "9.5 Reading and Converting Spatial Data",
+    "text": "9.5 Reading and Converting Spatial Data\nHere, the code reads the spatial data from the mytable table, specifying the geometry column (geom2). The result is converted to a tibble and then to an sf object for spatial data manipulation.\n\nres &lt;- st_read(\n  conn,\n  query =\n    \"\n      SELECT\n        *\n      FROM\n       mytable;\n    \",\n  geometry_column = \"geom2\"\n) |&gt;\n  st_as_sf() |&gt;\n  select(-geom) |&gt;\n  head()",
+    "crumbs": [
+      "Manipulating",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Spatial databases</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/manipulating/02_database.html#filtering-and-plotting-spatial-data",
+    "href": "chapters/manipulating/02_database.html#filtering-and-plotting-spatial-data",
+    "title": "9  Spatial databases",
+    "section": "9.6 Filtering and Plotting Spatial Data",
+    "text": "9.6 Filtering and Plotting Spatial Data\nFilter the spatial data based on intersection with a specific point.\n\ntbl(conn, \"mytable\") |&gt;\n  filter(ST_Intersects(geom, \"SRID=4326;POINT (-81.5 36.43)\")) |&gt;\n  select(-contains(\"geom\"))\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAREA\nPERIMETER\nCNTY_\nCNTY_ID\nNAME\nFIPS\nFIPSNO\nCRESS_ID\nBIR74\nSID74\nNWBIR74\nBIR79\nSID79\nNWBIR79\n\n\n\n\n0.114\n1.442\n1825\n1825\nAshe\n37009\n37009\n5\n1091\n1\n10\n1364\n0\n19",
+    "crumbs": [
+      "Manipulating",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Spatial databases</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/manipulating/02_database.html#filter-by-area-and-plot",
+    "href": "chapters/manipulating/02_database.html#filter-by-area-and-plot",
+    "title": "9  Spatial databases",
+    "section": "9.7 Filter by Area and Plot",
+    "text": "9.7 Filter by Area and Plot\nFilter the spatial data based on area greater than 0.14 and plot the results.\n\nres &lt;- tbl(conn, \"mytable\") |&gt;\n  filter(ST_Area(geom) &gt; 0.14) |&gt;\n  collect() |&gt;\n  st_as_sf()\n\nwkbType: 67108864\n\nplot(st_geometry(res), lwd = 0.5)",
+    "crumbs": [
+      "Manipulating",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Spatial databases</span>"
     ]
   },
   {
